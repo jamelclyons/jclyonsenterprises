@@ -1,0 +1,79 @@
+{
+  "name": "jclyonsenterprises",
+  "version": "1.0.0",
+  "description": "Business website for J.C.LYONS ENTERPRISES LLC",
+  "type": "module",
+  "author": "@jamelclyons",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/jamelclyons/jclyonsenterprises.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jamelclyons/jclyonsenterprises/issues"
+  },
+  "homepage": "https://github.com/jamelclyons/jclyonsenterprises#readme",
+  "scripts": {
+    "node:dev": "node --watch --env-file=.env ./src/services/firebase/functions/server",
+    "dev": "vite",
+    "tsc:dev": "tsc --watch",
+    "vite": "vite -c vite.config.ts",
+    "build": "vite build",
+    "preview": "vite preview --port 8080",
+    "update-dev": "git push jcle development",
+    "update-prod": "git push jcle",
+    "refactor": "./refactor.sh && npm run update-prod"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.2",
+    "@octokit/types": "^13.6.2",
+    "@reduxjs/toolkit": "^1.9.5",
+    "@the7ofdiamonds/communications": "^0.0.47",
+    "@the7ofdiamonds/gateway": "^0.0.31",
+    "@the7ofdiamonds/github-portfolio": "^1.0.39",
+    "@the7ofdiamonds/ui-ux": "^1.0.48",
+    "@the7ofdiamonds/products-services": "^1.0.1",
+    "@the7ofdiamonds/locations": "^0.0.4",
+    "browser-sync": "^3.0.3",
+    "buffer": "^6.0.3",
+    "cors": "^2.8.5",
+    "crypto-browserify": "^3.12.0",
+    "del": "^8.0.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase": "^11.1.0",
+    "glob": "^11.0.1",
+    "jsonwebtoken": "^9.0.2",
+    "marked": "^15.0.5",
+    "moment": "^2.29.4",
+    "node": "^23.8.0",
+    "path": "^0.12.7",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-redux": "^8.1.2",
+    "react-router-dom": "^6.14.2",
+    "source-map-js": "^1.0.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^16.0.0",
+    "@rollup/plugin-typescript": "^12.1.2",
+    "@types/marked": "^5.0.2",
+    "@types/node": "^22.16.5",
+    "@types/react": "^18.3.22",
+    "@types/react-dom": "^18.3.7",
+    "@vitejs/plugin-react": "^4.3.4",
+    "child_process": "^1.0.2",
+    "firebase-tools": "^13.29.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.69.5",
+    "typescript": "^5.7.3",
+    "vite": "^5.0.10",
+    "vite-plugin-restart": "^1.0.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "optionalDependencies": {
+    "@rollup/rollup-linux-x64-gnu": "4.9.5"
+  }
+}

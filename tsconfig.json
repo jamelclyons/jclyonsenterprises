@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@the7ofdiamonds/ui-ux": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/ui-ux/dist/types/index"],
+      "@the7ofdiamonds/communications": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/communications/dist/types/index"],
+      "@the7ofdiamonds/gateway": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/gateway/dist/types/index"],
+      "@the7ofdiamonds/github-portfolio": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/github-portfolio/dist/types/index"],
+      "@the7ofdiamonds/products-services": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/products-services/dist/types/index"],
+      "@the7ofdiamonds/locations": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/locations/dist/types/index"],
+      "@the7ofdiamonds/schedule": ["/Users/jamellyons/Documents/J_C_LYONS_ENTERPRISES_LLC/Packages/javascript/schedule/dist/types/index"]
+    },
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    "downlevelIteration": true
+    },
+  "include": ["src", "vite-env.d.ts"],
+  "exclude": ["node_modules", "dist", "src/services/firebase/functions"]
+}
