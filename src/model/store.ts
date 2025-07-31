@@ -1,30 +1,25 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { contactSlice } from '@the7ofdiamonds/communications';
+import { scheduleSlice } from '@the7ofdiamonds/schedule';
 import { accountSlice, authSlice } from '@the7ofdiamonds/gateway';
-
-// import { addSlice } from '@/controllers/addSlice';
-// import { databaseSlice } from '@/controllers/databaseSlice';
-// import { githubSlice } from '@/controllers/githubSlice';
-// import { organizationSlice } from '@/controllers/organizationSlice';
-// import { portfolioSlice } from '@/controllers/portfolioSlice';
-// import { projectSlice } from '@/controllers/projectSlice';
-// import { skillsSlice } from '@/controllers/skillsSlice';
-// import { updateSlice } from '@/controllers/updateSlice';
-// import { userSlice } from '@/controllers/userSlice';
+import { portfolioSlice, projectSlice } from '@the7ofdiamonds/github-portfolio';
+import { locationSlice } from '@the7ofdiamonds/locations';
+// import { productsSlice, productSlice, servicesSlice, serviceSlice } from '@the7ofdiamonds/products-services';
 
 export const store = configureStore({
   reducer: {
-    // add: addSlice.reducer,
-    // portfolio: portfolioSlice.reducer,
-    // project: projectSlice.reducer,
-    // github: githubSlice.reducer,
-    // skills: skillsSlice.reducer,
-    // update: updateSlice.reducer,
-    // user: userSlice.reducer,
     auth: authSlice.reducer,
-    // database: databaseSlice.reducer,
-    // organization: organizationSlice.reducer,
     account: accountSlice.reducer,
+    contact: contactSlice.reducer,
+    portfolio: portfolioSlice.reducer,
+    project: projectSlice.reducer,
+    location: locationSlice.reducer,
+    // products: productsSlice.reducer,
+    // product: productSlice.reducer,
+    // services: servicesSlice.reducer,
+    // service: serviceSlice.reducer,
+    schedule: scheduleSlice.reducer,
   },
 });
 

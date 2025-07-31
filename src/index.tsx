@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 
 import App from './App';
 
-// import { store } from './model/store';
+import { store } from './model/store';
 
 // import { initializeConfig } from './services/Config';
 
@@ -13,9 +13,9 @@ const root = document.getElementById('root') as HTMLElement;
 
 if (root) {
   ReactDOM.createRoot(root).render(
-    // <Provider store={store}>
+    <Provider store={store}>
       <App />
-    // </Provider>
+    </Provider>
   );
 } else {
   console.log('ID root could not be found on the page.');

@@ -2,8 +2,10 @@ import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Link, User, Skills, ContactMethods, Organization, Project, Account } from '@the7ofdiamonds/ui-ux';
-import { AboutPage, ContactBar } from '@the7ofdiamonds/communications';
+import { ContactBar } from '@the7ofdiamonds/communications';
 import { getAuthenticatedUserAccount, PortfolioPage } from '@the7ofdiamonds/github-portfolio';
+
+import { useAppSelector, useAppDispatch } from '@/model/hooks';
 
 const HeaderComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
   .then(mod => ({ default: mod.HeaderComponent })));
@@ -12,10 +14,18 @@ const LoadingComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
 const FooterComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
   .then(mod => ({ default: mod.FooterComponent })));
 
-const About = lazy(() => import('@the7ofdiamonds/communications')
+const AboutPage = lazy(() => import('@the7ofdiamonds/communications')
   .then(mod => ({ default: mod.AboutPage })));
-const Contact = lazy(() => import('@the7ofdiamonds/communications')
+const ContactPage = lazy(() => import('@the7ofdiamonds/communications')
   .then(mod => ({ default: mod.ContactPage })));
+const SupportPage = lazy(() => import('@the7ofdiamonds/communications')
+  .then(mod => ({ default: mod.SupportPage })));
+const UserPage = lazy(() => import('@the7ofdiamonds/communications')
+  .then(mod => ({ default: mod.UserPage })));
+const FAQPage = lazy(() => import('@the7ofdiamonds/communications')
+  .then(mod => ({ default: mod.FAQPage })));
+const ResearchPage = lazy(() => import('@the7ofdiamonds/communications')
+  .then(mod => ({ default: mod.ResearchPage })));
 
 const Login = lazy(() => import('@the7ofdiamonds/gateway')
   .then(mod => ({ default: mod.LoginPage })));
@@ -55,23 +65,23 @@ const App: React.FC = () => {
   const portfolioPage = new Link();
   portfolioPage.setHref('/portfolio');
   portfolioPage.setText('Portfolio');
-  const resumePage = new Link();
-  resumePage.setHref('/resume');
-  resumePage.setText('Resume');
-  const contactPage = new Link();
-  contactPage.setHref('/contact')
-  contactPage.setText('Contact')
+  const productsPage = new Link();
+  productsPage.setHref('/products');
+  productsPage.setText('Products');
+  const servicesPage = new Link();
+  servicesPage.setHref('/services')
+  servicesPage.setText('Services')
 
   useEffect(() => {
     setLeftMenu([aboutPage, portfolioPage])
   }, []);
 
   useEffect(() => {
-    setCenterMenu([aboutPage, portfolioPage, resumePage, contactPage])
+    setCenterMenu([aboutPage, portfolioPage, productsPage, servicesPage])
   }, []);
 
   useEffect(() => {
-    setRightMenu([resumePage, contactPage])
+    setRightMenu([productsPage, servicesPage])
   }, []);
 
   return (
@@ -80,9 +90,20 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Suspense fallback={<LoadingComponent page='' />}>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/contact" element={<Contact account={new Account} />} />
+            <Route path="/" element={<Home useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/about" element={<AboutPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={new Account} />} />
+            <Route path="/contact" element={<ContactPage account={new Account} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/support" element={<SupportPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/faq" element={<FAQPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/research" element={<ResearchPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+
+            <Route path="/schedule" element={<Login />} />
+
+            <Route path="/products" element={<Login />} />
+            <Route path="/products:productID" element={<Login />} />
+            <Route path="/services" element={<Login />} />
+            <Route path="/services/:serviceID" element={<Login />} />
+
             <Route path="/login" element={<Login />} />
             <Route path="/logout" element={<Logout />} />
             <Route path="/signup" element={<SignUp />} />
@@ -92,6 +113,7 @@ const App: React.FC = () => {
                 <Dashboard />
               </ProtectedRoute>
             } />
+
             <Route path="/portfolio" element={<Portfolio account={new Account} portfolio={null} skills={null} />} />
 
             <Route path="*" element={<NotFound />} />
