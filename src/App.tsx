@@ -27,6 +27,9 @@ const FAQPage = lazy(() => import('@the7ofdiamonds/communications')
 const ResearchPage = lazy(() => import('@the7ofdiamonds/communications')
   .then(mod => ({ default: mod.ResearchPage })));
 
+const SchedulePage = lazy(() => import('@the7ofdiamonds/schedule')
+  .then(mod => ({ default: mod.SchedulePage })));
+
 const Login = lazy(() => import('@the7ofdiamonds/gateway')
   .then(mod => ({ default: mod.LoginPage })));
 const Logout = lazy(() => import('@the7ofdiamonds/gateway')
@@ -40,6 +43,15 @@ const Dashboard = lazy(() => import('@the7ofdiamonds/gateway')
 
 const Portfolio = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.PortfolioPage })));
+
+const ProductPage = lazy(() => import('@the7ofdiamonds/products-services')
+  .then(mod => ({ default: mod.ProductPage })));
+const ProductsPage = lazy(() => import('@the7ofdiamonds/products-services')
+  .then(mod => ({ default: mod.ProductsPage })));
+const ServicePage = lazy(() => import('@the7ofdiamonds/products-services')
+  .then(mod => ({ default: mod.ServicePage })));
+const ServicesPage = lazy(() => import('@the7ofdiamonds/products-services')
+  .then(mod => ({ default: mod.ServicesPage })));
 
 const Home = lazy(() => import('./views/Home'));
 const NotFound = lazy(() => import('./views/NotFound'));
@@ -97,17 +109,17 @@ const App: React.FC = () => {
             <Route path="/faq" element={<FAQPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/research" element={<ResearchPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/schedule" element={<Login />} />
+            <Route path="/schedule" element={<SchedulePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/products" element={<Login />} />
-            <Route path="/products:productID" element={<Login />} />
-            <Route path="/services" element={<Login />} />
-            <Route path="/services/:serviceID" element={<Login />} />
+            <Route path="/products" element={<ProductsPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/products:productID" element={<ProductPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/services" element={<ServicesPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/services/:serviceID" element={<ServicePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/login" element={<Login />} />
-            <Route path="/logout" element={<Logout />} />
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/forgot" element={<Forgot />} />
+            <Route path="/login" element={<Login useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/logout" element={<Logout useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/signup" element={<SignUp useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/forgot" element={<Forgot useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
                 <Dashboard />
