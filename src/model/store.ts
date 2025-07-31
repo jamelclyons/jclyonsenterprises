@@ -5,7 +5,12 @@ import { scheduleSlice } from '@the7ofdiamonds/schedule';
 import { accountSlice, authSlice } from '@the7ofdiamonds/gateway';
 import { portfolioSlice, projectSlice } from '@the7ofdiamonds/github-portfolio';
 import { locationSlice } from '@the7ofdiamonds/locations';
-// import { productsSlice, productSlice, servicesSlice, serviceSlice } from '@the7ofdiamonds/products-services';
+import {
+  productsSlice,
+  productSlice,
+  servicesSlice,
+  serviceSlice,
+} from '@the7ofdiamonds/products-services';
 
 export const store = configureStore({
   reducer: {
@@ -15,10 +20,10 @@ export const store = configureStore({
     portfolio: portfolioSlice.reducer,
     project: projectSlice.reducer,
     location: locationSlice.reducer,
-    // products: productsSlice.reducer,
-    // product: productSlice.reducer,
-    // services: servicesSlice.reducer,
-    // service: serviceSlice.reducer,
+    products: productsSlice.reducer,
+    product: productSlice.reducer,
+    services: servicesSlice.reducer,
+    service: serviceSlice.reducer,
     schedule: scheduleSlice.reducer,
   },
 });
