@@ -3,9 +3,11 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 import { Link, User, Skills, ContactMethods, Organization, Project, Account } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
-import { getAuthenticatedUserAccount, PortfolioPage } from '@the7ofdiamonds/github-portfolio';
+import { getAuthenticatedAccount, getAuthenticatedUserAccount, getOrganization, PortfolioPage } from '@the7ofdiamonds/github-portfolio';
 
 import { useAppSelector, useAppDispatch } from '@/model/hooks';
+
+import orgJson from '../organization.json';
 
 const HeaderComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
   .then(mod => ({ default: mod.HeaderComponent })));
@@ -38,8 +40,6 @@ const SignUp = lazy(() => import('@the7ofdiamonds/gateway')
   .then(mod => ({ default: mod.SignUpPage })));
 const Forgot = lazy(() => import('@the7ofdiamonds/gateway')
   .then(mod => ({ default: mod.ForgotPage })));
-const Dashboard = lazy(() => import('@the7ofdiamonds/gateway')
-  .then(mod => ({ default: mod.DashboardPage })));
 
 const Portfolio = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.PortfolioPage })));
@@ -53,23 +53,14 @@ const ServicePage = lazy(() => import('@the7ofdiamonds/products-services')
 const ServicesPage = lazy(() => import('@the7ofdiamonds/products-services')
   .then(mod => ({ default: mod.ServicesPage })));
 
+const Dashboard = lazy(() => import('./views/Dashboard'));
 const Home = lazy(() => import('./views/Home'));
 const NotFound = lazy(() => import('./views/NotFound'));
 
 import ProtectedRoute from './ProtectedRoute';
 
 const App: React.FC = () => {
-  const [leftMenu, setLeftMenu] = useState<Link[]>([]);
-  const [centerMenu, setCenterMenu] = useState<Link[]>([]);
-  const [rightMenu, setRightMenu] = useState<Link[]>([]);
-
-  useEffect(() => {
-    const redirect = sessionStorage.redirect;
-    if (redirect) {
-      sessionStorage.removeItem('redirect');
-      window.history.replaceState(null, '', redirect);
-    }
-  }, []);
+  const dispatch = useAppDispatch();
 
   const aboutPage = new Link();
   aboutPage.setHref('/about');
@@ -84,17 +75,39 @@ const App: React.FC = () => {
   servicesPage.setHref('/services')
   servicesPage.setText('Services')
 
-  useEffect(() => {
-    setLeftMenu([aboutPage, portfolioPage])
-  }, []);
+  const leftMenu: Array<Link> = [aboutPage, portfolioPage]
+  const centerMenu: Array<Link> = [aboutPage, portfolioPage, productsPage, servicesPage];
+  const rightMenu: Array<Link> = [productsPage, servicesPage]
+
+  const org = new Organization();
+  org.fromJSON(orgJson);
+
+  const [organization, setOrganization] = useState<Organization>(org);
+  const [contactMethods, setContactMethods] = useState<ContactMethods | null>(null);
+
+  const { organizationObject } = useAppSelector(
+    (state) => state.organization);
 
   useEffect(() => {
-    setCenterMenu([aboutPage, portfolioPage, productsPage, servicesPage])
-  }, []);
+    if (!organizationObject && org.login) {
+      dispatch(getOrganization(org.login));
+    }
+  }, [org.login, organizationObject]);
 
   useEffect(() => {
-    setRightMenu([productsPage, servicesPage])
-  }, []);
+    if (organizationObject) {
+      const newOrg = new Organization(organizationObject);
+      newOrg.fromJSON(orgJson)
+      setOrganization(newOrg);
+      setContactMethods(newOrg.contactMethods);
+    }
+  }, [organizationObject]);
+
+  useEffect(() => {
+    if (organization.contactMethods) {
+      setContactMethods(organization.contactMethods);
+    }
+  }, [organization.contactMethods]);
 
   return (
     <>
@@ -102,9 +115,9 @@ const App: React.FC = () => {
       <BrowserRouter>
         <Suspense fallback={<LoadingComponent page='' />}>
           <Routes>
-            <Route path="/" element={<Home useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/about" element={<AboutPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={new Account} />} />
-            <Route path="/contact" element={<ContactPage account={new Account} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/" element={<Home account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/about" element={<AboutPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
+            <Route path="/contact" element={<ContactPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/support" element={<SupportPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/faq" element={<FAQPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/research" element={<ResearchPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
@@ -122,18 +135,18 @@ const App: React.FC = () => {
             <Route path="/forgot" element={<Forgot useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/dashboard" element={
               <ProtectedRoute>
-                <Dashboard />
+                <Dashboard useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />
               </ProtectedRoute>
             } />
 
-            <Route path="/portfolio" element={<Portfolio account={new Account} portfolio={null} skills={null} />} />
+            <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
             <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </BrowserRouter >
       <FooterComponent name='J.C. LYONS ENTERPRISES LLC'>
-        {/* {contactMethods && <ContactBar contactMethods={contactMethods} location={'footer'} />} */}
+        {contactMethods && <ContactBar contactMethods={contactMethods} location={'footer'} />}
       </FooterComponent>
     </>
   );

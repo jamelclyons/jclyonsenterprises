@@ -5,9 +5,9 @@ import App from './App';
 
 import { store } from './model/store';
 
-// import { initializeConfig } from './services/Config';
+import { initializeConfig } from './services/Config';
 
-// initializeConfig();
+initializeConfig();
 
 const root = document.getElementById('root') as HTMLElement;
 

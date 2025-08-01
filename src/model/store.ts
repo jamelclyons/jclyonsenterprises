@@ -3,7 +3,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { contactSlice } from '@the7ofdiamonds/communications';
 import { scheduleSlice } from '@the7ofdiamonds/schedule';
 import { accountSlice, authSlice } from '@the7ofdiamonds/gateway';
-import { portfolioSlice, projectSlice } from '@the7ofdiamonds/github-portfolio';
+import {
+  portfolioSlice,
+  projectSlice,
+  organizationSlice,
+} from '@the7ofdiamonds/github-portfolio';
 import { locationSlice } from '@the7ofdiamonds/locations';
 import {
   productsSlice,
@@ -17,6 +21,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     account: accountSlice.reducer,
     contact: contactSlice.reducer,
+    organization: organizationSlice.reducer,
     portfolio: portfolioSlice.reducer,
     project: projectSlice.reducer,
     location: locationSlice.reducer,
