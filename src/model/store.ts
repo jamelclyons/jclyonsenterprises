@@ -7,6 +7,7 @@ import {
   portfolioSlice,
   projectSlice,
   organizationSlice,
+  githubSlice,
 } from '@the7ofdiamonds/github-portfolio';
 import { locationSlice } from '@the7ofdiamonds/locations';
 import {
@@ -21,6 +22,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     account: accountSlice.reducer,
     contact: contactSlice.reducer,
+    github: githubSlice.reducer,
     organization: organizationSlice.reducer,
     portfolio: portfolioSlice.reducer,
     project: projectSlice.reducer,

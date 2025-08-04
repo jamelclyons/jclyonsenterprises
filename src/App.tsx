@@ -1,9 +1,10 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Link, User, Skills, ContactMethods, Organization, Project, Account } from '@the7ofdiamonds/ui-ux';
+import { Link, User, Skills, ContactMethods, Organization, Project, Account, RepoContentQuery } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getAuthenticatedAccount, getAuthenticatedUserAccount, getOrganization, PortfolioPage } from '@the7ofdiamonds/github-portfolio';
+import { getRepoFile } from '@the7ofdiamonds/github-portfolio';
 
 import { useAppSelector, useAppDispatch } from '@/model/hooks';
 
@@ -16,8 +17,7 @@ const LoadingComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
 const FooterComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
   .then(mod => ({ default: mod.FooterComponent })));
 
-const AboutPage = lazy(() => import('@the7ofdiamonds/communications')
-  .then(mod => ({ default: mod.AboutPage })));
+
 const ContactPage = lazy(() => import('@the7ofdiamonds/communications')
   .then(mod => ({ default: mod.ContactPage })));
 const SupportPage = lazy(() => import('@the7ofdiamonds/communications')
@@ -53,9 +53,10 @@ const ServicePage = lazy(() => import('@the7ofdiamonds/products-services')
 const ServicesPage = lazy(() => import('@the7ofdiamonds/products-services')
   .then(mod => ({ default: mod.ServicesPage })));
 
-const Dashboard = lazy(() => import('./views/Dashboard'));
-const Home = lazy(() => import('./views/Home'));
-const NotFound = lazy(() => import('./views/NotFound'));
+const AboutPage = lazy(() => import('./views/AboutPage'));
+const Dashboard = lazy(() => import('./views/DashboardPage'));
+const Home = lazy(() => import('./views/HomePage'));
+const NotFound = lazy(() => import('./views/NotFoundPage'));
 
 import ProtectedRoute from './ProtectedRoute';
 
@@ -108,6 +109,14 @@ const App: React.FC = () => {
       setContactMethods(organization.contactMethods);
     }
   }, [organization.contactMethods]);
+
+  const [repoContentQuery, setRepoContentQuery] = useState<RepoContentQuery>(new RepoContentQuery('', '', '', ''));
+
+  useEffect(() => {
+    if (organization?.login) {
+      setRepoContentQuery(new RepoContentQuery(organization.login, organization.login, 'story.md', ''))
+    }
+  }, [organization?.login]);
 
   return (
     <>

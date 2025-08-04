@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { Section, Main } from '@the7ofdiamonds/ui-ux';
 
-const NotFound: React.FC = () => {
+const NotFoundPage: React.FC = () => {
   useEffect(() => {
     document.title = '404 - Page Not Found';
   }, []);
@@ -16,4 +16,4 @@ const NotFound: React.FC = () => {
   );
 }
 
-export default NotFound;
+export default NotFoundPage;
