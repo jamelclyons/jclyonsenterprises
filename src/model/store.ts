@@ -1,5 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 
+import { contentSlice } from '@the7ofdiamonds/ui-ux';
+
 import { contactSlice } from '@the7ofdiamonds/communications';
 import { scheduleSlice } from '@the7ofdiamonds/schedule';
 import { accountSlice, authSlice } from '@the7ofdiamonds/gateway';
@@ -22,6 +24,7 @@ export const store = configureStore({
     auth: authSlice.reducer,
     account: accountSlice.reducer,
     contact: contactSlice.reducer,
+    content: contentSlice.reducer,
     github: githubSlice.reducer,
     organization: organizationSlice.reducer,
     portfolio: portfolioSlice.reducer,
