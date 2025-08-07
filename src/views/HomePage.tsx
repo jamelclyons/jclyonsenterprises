@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import type { TypedUseSelectorHook } from 'react-redux';
 
-import { MessageType, Organization, Portfolio, RepoContentQuery, Section, Skills, StatusBar, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
+import { Section, StatusBar } from '@the7ofdiamonds/ui-ux';
+import { Hours, MessageType, Organization, Portfolio, RepoContentQuery, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { getRepoFile, PortfolioComponent } from '@the7ofdiamonds/github-portfolio';
 import { AboutComponent } from '@the7ofdiamonds/communications';
 import { fetchProducts, fetchServices, Products, ProductsServicesHero, Services } from '@the7ofdiamonds/products-services';
@@ -73,13 +74,13 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
 
     useEffect(() => {
         if (account && account.portfolio) {
-            setPortfolio(servicesObject)
+            setPortfolio(account.portfolio)
         }
     }, [account, account?.portfolio]);
 
     useEffect(() => {
         if (account && account.skills) {
-            setSkills(servicesObject)
+            setSkills(account.skills)
         }
     }, [account, account?.skills]);
 
@@ -89,7 +90,7 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
 
             {(portfolio || skills) && <PortfolioComponent portfolio={portfolio} skills={skills} />}
 
-            <AboutComponent title={null} account={account} query={query} getFile={getRepoFile} dispatch={dispatch} />
+            {account && <AboutComponent title={null} account={account} query={query} getFile={getRepoFile} dispatch={dispatch} />}
 
             {message && <StatusBar show={showStatusBar} messageType={messageType} message={message} />}
         </Section>

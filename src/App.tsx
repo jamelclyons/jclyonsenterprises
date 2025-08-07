@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Organization, SiteMapComponent } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, SiteMapComponent } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getOrganization } from '@the7ofdiamonds/github-portfolio';
 
@@ -77,10 +77,21 @@ const App: React.FC = () => {
     }
   }, [org.login, organizationObject]);
 
+  const officeHours: Array<Hours> = [
+    new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
+    new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
+    new Hours(true, 'TUE', '09:00 AM', '05:00 PM'),
+    new Hours(true, 'WED', '09:00 AM', '05:00 PM'),
+    new Hours(true, 'THU', '09:00 AM', '05:00 PM'),
+    new Hours(true, 'FRI', '08:00 AM', '04:00 PM'),
+    new Hours(false, 'SAT'),
+  ];
+
   useEffect(() => {
     if (organizationObject) {
       const newOrg = new Organization(organizationObject);
       newOrg.fromJSON(orgJson)
+      newOrg.setOfficeHours(officeHours)
       setOrganization(newOrg);
       setContactMethods(newOrg.contactMethods);
     }
@@ -91,7 +102,7 @@ const App: React.FC = () => {
       setContactMethods(organization.contactMethods);
     }
   }, [organization.contactMethods]);
-console.log(siteMap)
+
   return (
     <>
       <HeaderComponent branding={'SEVEN TECH'} leftMenu={leftMenu} centerMenu={centerMenu} rightMenu={rightMenu} />
@@ -123,7 +134,7 @@ console.log(siteMap)
               </ProtectedRoute>
             } />
 
-            {/* <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} /> */}
+            <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
             <Route path="/user/:userID" element={<UserPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
