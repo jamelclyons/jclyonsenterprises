@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Hours, Organization, SiteMapComponent } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, Service, SiteMapComponent } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getOrganization } from '@the7ofdiamonds/github-portfolio';
 
@@ -77,6 +77,25 @@ const App: React.FC = () => {
     }
   }, [org.login, organizationObject]);
 
+  const services: Array<Service> = [
+    new Service({
+      id: 1,
+      title: 'APP Development',
+      price: 66100
+    }),
+    new Service({
+      id: 2,
+      title: 'Web APP Development',
+      price: 6610
+    }),
+    new Service({
+      id: 3,
+      title: 'ORB',
+      price: 'Free'
+    })
+  ];
+
+
   const officeHours: Array<Hours> = [
     new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
     new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
@@ -92,6 +111,7 @@ const App: React.FC = () => {
       const newOrg = new Organization(organizationObject);
       newOrg.fromJSON(orgJson)
       newOrg.setOfficeHours(officeHours)
+      newOrg.setServices(services);
       setOrganization(newOrg);
       setContactMethods(newOrg.contactMethods);
     }
@@ -121,7 +141,7 @@ const App: React.FC = () => {
 
             <Route path="/products" element={<ProductsPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/products:productID" element={<ProductPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/services" element={<ServicesPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/services" element={<ServicesPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/services/:serviceID" element={<ServicePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
             <Route path="/login" element={<Login useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />

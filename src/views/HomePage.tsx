@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import type { TypedUseSelectorHook } from 'react-redux';
 
 import { Section, StatusBar } from '@the7ofdiamonds/ui-ux';
-import { Hours, MessageType, Organization, Portfolio, RepoContentQuery, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
+import { MessageType, Organization, Portfolio, RepoContentQuery, Services, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { getRepoFile, PortfolioComponent } from '@the7ofdiamonds/github-portfolio';
 import { AboutComponent } from '@the7ofdiamonds/communications';
-import { fetchProducts, fetchServices, Products, ProductsServicesHero, Services } from '@the7ofdiamonds/products-services';
+import { fetchProducts, fetchServices, Products, ProductsServicesHero } from '@the7ofdiamonds/products-services';
 
 interface HomePageProps<RootState, AppDispatch> {
     account: Organization;
