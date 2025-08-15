@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Hours, Organization, Service, SiteMapComponent } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getOrganization } from '@the7ofdiamonds/github-portfolio';
 
@@ -10,6 +10,7 @@ import { useAppSelector, useAppDispatch } from '@/model/hooks';
 import { leftMenu, centerMenu, rightMenu, siteMap } from './Links'
 
 import orgJson from '../organization.json';
+import skillsJson from '../skills.json';
 
 const HeaderComponent = lazy(() => import('@the7ofdiamonds/ui-ux')
   .then(mod => ({ default: mod.HeaderComponent })));
@@ -38,6 +39,8 @@ const Forgot = lazy(() => import('@the7ofdiamonds/gateway')
 
 const Portfolio = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.PortfolioPage })));
+const Project = lazy(() => import('@the7ofdiamonds/github-portfolio')
+  .then(mod => ({ default: mod.ProjectPage })));
 
 const ProductPage = lazy(() => import('@the7ofdiamonds/products-services')
   .then(mod => ({ default: mod.ProductPage })));
@@ -62,8 +65,11 @@ import ProtectedRoute from './ProtectedRoute';
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const skills = new Skills({ list: skillsJson });
+
   const org = new Organization();
   org.fromJSON(orgJson);
+  org.setSkills(skills);
 
   const [organization, setOrganization] = useState<Organization>(org);
   const [contactMethods, setContactMethods] = useState<ContactMethods | null>(null);
@@ -81,17 +87,71 @@ const App: React.FC = () => {
     new Service({
       id: 1,
       title: 'APP Development',
-      price: 66100
+      icons: [{
+        id: 'apple-app-store',
+        title: 'Apple App Store',
+        url: null,
+        class_name: 'fa-brands fa-app-store-ios'
+      },
+      {
+        id: 'chrome',
+        title: 'Google chrome Browser',
+        url: null,
+        class_name: 'fa-brands fa-chrome'
+      },
+      {
+        id: 'safari',
+        title: "Apple's Safari Browser",
+        url: null,
+        class_name: 'fa-brands fa-safari'
+      },
+      {
+        id: 'edge',
+        title: "Microsoft's Edge Browser",
+        url: null,
+        class_name: 'fa-brands fa-edge'
+      }],
+      description: 'Build a Custom Cross-Platform Application',
+      price: 66100,
+      action_word: 'build app'
     }),
     new Service({
       id: 2,
       title: 'Web APP Development',
-      price: 6610
+      icons: [{
+        id: 'chrome',
+        title: 'Google chrome Browser',
+        url: null,
+        class_name: 'fa-brands fa-chrome'
+      },
+      {
+        id: 'safari',
+        title: "Apple's Safari Browser",
+        url: null,
+        class_name: 'fa-brands fa-safari'
+      },
+      {
+        id: 'edge',
+        title: "Microsoft's Edge Browser",
+        url: null,
+        class_name: 'fa-brands fa-edge'
+      }],
+      description: 'Build a Custom Web Application',
+      price: 6610,
+      action_word: 'build web app'
     }),
     new Service({
       id: 3,
       title: 'ORB',
-      price: 'Free'
+      icons: [{
+        id: 'orb',
+        title: "ORB",
+        url: null,
+        class_name: 'fa-solid fa-circle'
+      }],
+      description: 'A platform for managing your personal finances and business',
+      price: 'No Upfront Cost',
+      action_word: 'download'
     })
   ];
 
@@ -110,6 +170,7 @@ const App: React.FC = () => {
     if (organizationObject) {
       const newOrg = new Organization(organizationObject);
       newOrg.fromJSON(orgJson)
+      newOrg.setSkills(skills);
       newOrg.setOfficeHours(officeHours)
       newOrg.setServices(services);
       setOrganization(newOrg);
@@ -155,6 +216,7 @@ const App: React.FC = () => {
             } />
 
             <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/portfolio/:owner/:projectID" element={<Project account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
             <Route path="/user/:userID" element={<UserPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 

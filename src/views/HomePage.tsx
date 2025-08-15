@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import type { TypedUseSelectorHook } from 'react-redux';
 
 import { Section, StatusBar } from '@the7ofdiamonds/ui-ux';
-import { MessageType, Organization, Portfolio, RepoContentQuery, Services, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
+import { MessageType, Organization, Portfolio, Products, RepoContentQuery, Services, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { getRepoFile, PortfolioComponent } from '@the7ofdiamonds/github-portfolio';
 import { AboutComponent } from '@the7ofdiamonds/communications';
-import { fetchProducts, fetchServices, Products, ProductsServicesHero } from '@the7ofdiamonds/products-services';
+import { fetchProducts, fetchServices, ProductsServicesHero } from '@the7ofdiamonds/products-services';
 
 interface HomePageProps<RootState, AppDispatch> {
     account: Organization;
@@ -20,11 +20,12 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     const [messageType, setMessageType] = useState<MessageType>('info');
     const [showStatusBar, setShowStatusBar] = useState<StatusBarVisibility>('hide');
 
-    const [query, setQuery] = useState<RepoContentQuery>(new RepoContentQuery(account?.login ?? '', account?.login ?? '', 'story.md', ''));
+    const [pitch, setPitch] = useState<string | null>(null);
     const [products, setProducts] = useState<Products | null>(null);
     const [services, setServices] = useState<Services | null>(null);
     const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-    const [skills, setSkills] = useState<Skills | null>(null);
+    const [skills, setSkills] = useState<Skills | null>(account?.skills);
+    const [query, setQuery] = useState<RepoContentQuery>(new RepoContentQuery(account?.login ?? '', account?.login ?? '', 'story.md', ''));
 
     const {
         productsLoading,
@@ -34,6 +35,12 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
         servicesLoading,
         servicesObject
     } = useAppSelector((state) => state.services);
+
+    useEffect(() => {
+        if (account?.bio) {
+            setPitch(account.bio)
+        }
+    }, [account]);
 
     useEffect(() => {
         if (productsLoading || servicesLoading) {
@@ -53,12 +60,16 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     }, [account])
 
     useEffect(() => {
-        dispatch(fetchServices());
-    }, []);
+        if (account.services && account.services.length === 0) {
+            dispatch(fetchServices());
+        }
+    }, [account?.services]);
 
     useEffect(() => {
-        dispatch(fetchProducts());
-    }, []);
+        if (account.products && account.products.length === 0) {
+            dispatch(fetchProducts());
+        }
+    }, [account?.products]);
 
     useEffect(() => {
         if (productsObject) {
@@ -71,6 +82,22 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
             setServices(servicesObject)
         }
     }, [servicesObject]);
+
+    useEffect(() => {
+        if (account?.services) {
+            const srvs = new Services();
+            srvs.setList(account.services)
+            setServices(srvs)
+        }
+    }, [account, account?.services]);
+
+    useEffect(() => {
+        if (account?.products) {
+            const prds = new Products();
+            prds.setList(account.products)
+            setProducts(prds)
+        }
+    }, [account, account?.products]);
 
     useEffect(() => {
         if (account && account.portfolio) {
@@ -86,7 +113,7 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
 
     return (
         <Section>
-            {(products || services) && <ProductsServicesHero products={products} services={services} />}
+            {(pitch || products || services) && <ProductsServicesHero pitch={pitch} products={products} services={services} dispatch={dispatch} />}
 
             {(portfolio || skills) && <PortfolioComponent portfolio={portfolio} skills={skills} />}
 

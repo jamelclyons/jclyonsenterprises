@@ -1,16 +1,26 @@
 {
-        "name": "SEVEN TECH",
-        "login": "the7ofdiamonds",
-        "founded_on": "06/16/2010",
-        "avatar_url": "https://avatars.githubusercontent.com/u/169557904?v=4",
-        "website": "https://jclyonsenterprises.dev",
-        "contact_methods": {
-            "github": "https://github.com/the7ofdiamonds",
-            "linked_in": "https://www.linkedin.com/company/the7ofdiamonds/",
-            "x": "https://x.com/the7ofdiamonds",
-            "instagram": "https://www.instagram.com/the7ofdiamonds/",
-            "youtube": "https://www.youtube.com/channel/UCG-zbWFiMocHcDTakR0xL1A",
-            "phone": "+1 (614) 500-3703",
-            "email": "jclyonsenterprises@gmail.com"
+    "name": "SEVEN TECH",
+    "login": "the7ofdiamonds",
+    "founded_on": "06/16/2010",
+    "avatar_url": "https://avatars.githubusercontent.com/u/169557904?v=4",
+    "website": "https://jclyonsenterprises.dev",
+    "contact_methods": {
+        "github": "https://github.com/the7ofdiamonds",
+        "linked_in": "https://www.linkedin.com/company/the7ofdiamonds/",
+        "x": "https://x.com/the7ofdiamonds",
+        "instagram": "https://www.instagram.com/the7ofdiamonds/",
+        "youtube": "https://www.youtube.com/channel/UCG-zbWFiMocHcDTakR0xL1A",
+        "phone": "+1 (614) 500-3703",
+        "email": "jclyonsenterprises@gmail.com"
+    },
+    "team": [
+        {
+            "first_name": "Jamel",
+            "last_name": "C. Lyons",
+            "title": "founder",
+            "login": "jamelclyons",
+            "website": "https://jamelclyons.dev",
+            "avatar_url": "https://avatars.githubusercontent.com/u/169557904?v=4"
         }
-    }
+    ]
+}
