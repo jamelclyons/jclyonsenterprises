@@ -1,7 +1,7 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills, User } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getOrganization } from '@the7ofdiamonds/github-portfolio';
 
@@ -41,6 +41,9 @@ const Portfolio = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.PortfolioPage })));
 const Project = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.ProjectPage })));
+
+const Search = lazy(() => import('@the7ofdiamonds/github-portfolio')
+  .then(mod => ({ default: mod.SearchPage })));
 
 const ProductPage = lazy(() => import('@the7ofdiamonds/products-services')
   .then(mod => ({ default: mod.ProductPage })));
@@ -217,6 +220,8 @@ const App: React.FC = () => {
 
             <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/portfolio/:owner/:projectID" element={<Project account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+
+            <Route path="/taxonomy/:taxonomy/:type/:term" element={<Search account={organization} skills={skills} />} />
 
             <Route path="/user/:userID" element={<UserPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 

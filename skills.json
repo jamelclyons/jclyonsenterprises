@@ -1,7 +1,7 @@
     [
         {
             "id": "application",
-            "type": "skill",
+            "type": "project_type",
             "title": "Application",
             "path": "project-type",
             "image": {
@@ -14,7 +14,7 @@
         },
         {
             "id": "plugin",
-            "type": "skill",
+            "type": "project_type",
             "title": "Plugin",
             "path": "project-type",
             "image": {
@@ -27,7 +27,7 @@
         },
         {
             "id": "theme",
-            "type": "skill",
+            "type": "project_type",
             "title": "Theme",
             "path": "project-type",
             "image": {
@@ -40,7 +40,7 @@
         },
         {
             "id": "website",
-            "type": "skill",
+            "type": "project_type",
             "title": "Website",
             "path": "project-type",
             "image": {
@@ -53,7 +53,7 @@
         },
         {
             "id": "cicd",
-            "type": "skill",
+            "type": "project_type",
             "title": "CI/CD",
             "path": "project-type",
             "image": {
@@ -66,7 +66,7 @@
         },
         {
             "id": "api",
-            "type": "skill",
+            "type": "project_type",
             "title": "API",
             "path": "project-type",
             "image": {
@@ -79,7 +79,7 @@
         },
         {
             "id": "css",
-            "type": "skill",
+            "type": "language",
             "title": "CSS",
             "path": "language",
             "image": {
@@ -92,7 +92,7 @@
         },
         {
             "id": "hack",
-            "type": "skill",
+            "type": "language",
             "title": "Hack",
             "path": "language",
             "image": {
@@ -105,7 +105,7 @@
         },
         {
             "id": "html",
-            "type": "skill",
+            "type": "language",
             "title": "HTML",
             "path": "language",
             "image": {
@@ -118,7 +118,7 @@
         },
         {
             "id": "java",
-            "type": "skill",
+            "type": "language",
             "title": "Java",
             "path": "language",
             "image": {
@@ -131,7 +131,7 @@
         },
         {
             "id": "javascript",
-            "type": "skill",
+            "type": "language",
             "title": "JavaScript",
             "path": "language",
             "image": {
@@ -144,7 +144,7 @@
         },
         {
             "id": "jquery",
-            "type": "skill",
+            "type": "language",
             "title": "jQuery",
             "path": "language",
             "image": {
@@ -157,7 +157,7 @@
         },
         {
             "id": "mysql",
-            "type": "skill",
+            "type": "language",
             "title": "MySQL",
             "path": "language",
             "image": {
@@ -170,7 +170,7 @@
         },
         {
             "id": "php",
-            "type": "skill",
+            "type": "language",
             "title": "PHP",
             "path": "language",
             "image": {
@@ -183,7 +183,7 @@
         },
         {
             "id": "python",
-            "type": "skill",
+            "type": "language",
             "title": "Python",
             "path": "language",
             "image": {
@@ -196,7 +196,7 @@
         },
         {
             "id": "shell",
-            "type": "skill",
+            "type": "language",
             "title": "PowerShell",
             "path": "language",
             "image": {
@@ -209,7 +209,7 @@
         },
         {
             "id": "swift",
-            "type": "skill",
+            "type": "language",
             "title": "Swift",
             "path": "language",
             "image": {
@@ -222,7 +222,7 @@
         },
         {
             "id": "typescript",
-            "type": "skill",
+            "type": "language",
             "title": "TypeScript",
             "path": "language",
             "image": {
@@ -235,7 +235,7 @@
         },
         {
             "id": "angular",
-            "type": "skill",
+            "type": "framework",
             "title": "Angular",
             "path": "framework",
             "image": {
@@ -248,7 +248,7 @@
         },
         {
             "id": "react",
-            "type": "skill",
+            "type": "framework",
             "title": "React",
             "path": "framework",
             "image": {
@@ -261,7 +261,7 @@
         },
         {
             "id": "redux",
-            "type": "skill",
+            "type": "framework",
             "title": "Redux",
             "path": "framework",
             "image": {
@@ -276,7 +276,7 @@
         },
         {
             "id": "spring",
-            "type": "skill",
+            "type": "framework",
             "title": "Spring Boot",
             "path": "framework",
             "image": {
@@ -289,7 +289,7 @@
         },
         {
             "id": "adobe-illustrator",
-            "type": "skill",
+            "type": "technology",
             "title": "Adobe Illustrator",
             "path": "technology",
             "image": {
@@ -302,7 +302,7 @@
         },
         {
             "id": "adobe-photoshop",
-            "type": "skill",
+            "type": "technology",
             "title": "Adobe Photoshop",
             "path": "technology",
             "image": {
@@ -315,7 +315,7 @@
         },
         {
             "id": "adobe-xd",
-            "type": "skill",
+            "type": "technology",
             "title": "Adobe XD",
             "path": "technology",
             "image": {
@@ -328,7 +328,7 @@
         },
         {
             "id": "docker",
-            "type": "skill",
+            "type": "technology",
             "title": "Docker",
             "path": "technology",
             "image": {
@@ -341,7 +341,7 @@
         },
         {
             "id": "express",
-            "type": "skill",
+            "type": "technology",
             "title": "Express",
             "path": "technology",
             "image": {
@@ -354,7 +354,7 @@
         },
         {
             "id": "figma",
-            "type": "skill",
+            "type": "technology",
             "title": "Figma",
             "path": "technology",
             "image": {
@@ -367,7 +367,7 @@
         },
         {
             "id": "jenkins",
-            "type": "skill",
+            "type": "technology",
             "title": "Jenkins",
             "path": "technology",
             "image": {
@@ -380,7 +380,7 @@
         },
         {
             "id": "kafka",
-            "type": "skill",
+            "type": "technology",
             "title": "Kafka",
             "path": "technology",
             "image": {
@@ -393,7 +393,7 @@
         },
         {
             "id": "kubernetes",
-            "type": "skill",
+            "type": "technology",
             "title": "Kubernetes",
             "path": "technology",
             "image": {
@@ -406,7 +406,7 @@
         },
         {
             "id": "maven",
-            "type": "skill",
+            "type": "technology",
             "title": "Maven",
             "path": "technology",
             "image": {
@@ -419,7 +419,7 @@
         },
         {
             "id": "mysql",
-            "type": "skill",
+            "type": "technology",
             "title": "MySQL",
             "path": "technology",
             "image": {
@@ -432,7 +432,7 @@
         },
         {
             "id": "nginx",
-            "type": "skill",
+            "type": "technology",
             "title": "NGINX",
             "path": "technology",
             "image": {
@@ -445,7 +445,7 @@
         },
         {
             "id": "nginx-proxy-manager",
-            "type": "skill",
+            "type": "technology",
             "title": "NGINX Proxy Manager",
             "path": "technology",
             "image": {
@@ -458,7 +458,7 @@
         },
         {
             "id": "postman",
-            "type": "skill",
+            "type": "technology",
             "title": "Postman",
             "path": "technology",
             "image": {
@@ -471,7 +471,7 @@
         },
         {
             "id": "redis",
-            "type": "skill",
+            "type": "technology",
             "title": "Redis",
             "path": "technology",
             "image": {
@@ -484,7 +484,7 @@
         },
         {
             "id": "sass",
-            "type": "skill",
+            "type": "technology",
             "title": "Sass",
             "path": "technology",
             "image": {
@@ -497,7 +497,7 @@
         },
         {
             "id": "selenium",
-            "type": "skill",
+            "type": "technology",
             "title": "Selenium",
             "path": "technology",
             "image": {
@@ -510,7 +510,7 @@
         },
         {
             "id": "sqlite",
-            "type": "skill",
+            "type": "technology",
             "title": "SQLite",
             "path": "technology",
             "image": {
@@ -523,7 +523,7 @@
         },
         {
             "id": "vite",
-            "type": "skill",
+            "type": "technology",
             "title": "Vite",
             "path": "technology",
             "image": {
@@ -536,7 +536,7 @@
         },
         {
             "id": "webpack",
-            "type": "skill",
+            "type": "technology",
             "title": "Webpack",
             "path": "technology",
             "image": {
@@ -549,7 +549,7 @@
         },
         {
             "id": "wordpress",
-            "type": "skill",
+            "type": "technology",
             "title": "WordPress",
             "path": "technology",
             "image": {
@@ -562,7 +562,7 @@
         },
         {
             "id": "nodejs",
-            "type": "skill",
+            "type": "technology",
             "title": "NodeJS",
             "path": "technology",
             "image": {
@@ -575,7 +575,7 @@
         },
         {
             "id": "graphql",
-            "type": "skill",
+            "type": "technology",
             "title": "GraphQL",
             "path": "technology",
             "image": {
@@ -588,7 +588,7 @@
         },
         {
             "id": "firebase",
-            "type": "skill",
+            "type": "service",
             "title": "Firebase",
             "path": "service",
             "image": {
@@ -600,7 +600,7 @@
         },
         {
             "id": "github",
-            "type": "skill",
+            "type": "service",
             "title": "GitHub",
             "path": "service",
             "image": {
@@ -612,7 +612,7 @@
         },
         {
             "id": "github-actions",
-            "type": "skill",
+            "type": "service",
             "title": "GitHub Actions",
             "path": "service",
             "image": {
