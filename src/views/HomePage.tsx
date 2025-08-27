@@ -60,13 +60,13 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     }, [account])
 
     useEffect(() => {
-        if (account.services && account.services.length === 0) {
+        if (account.services && account.services.list.length === 0) {
             dispatch(fetchServices());
         }
     }, [account?.services]);
 
     useEffect(() => {
-        if (account.products && account.products.length === 0) {
+        if (account.products && account.products.list.length === 0) {
             dispatch(fetchProducts());
         }
     }, [account?.products]);
@@ -84,20 +84,16 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     }, [servicesObject]);
 
     useEffect(() => {
-        if (account?.services) {
-            const srvs = new Services();
-            srvs.setList(account.services)
-            setServices(srvs)
-        }
-    }, [account, account?.services]);
-
-    useEffect(() => {
         if (account?.products) {
-            const prds = new Products();
-            prds.setList(account.products)
-            setProducts(prds)
+            setProducts(account.products)
         }
     }, [account, account?.products]);
+
+    useEffect(() => {
+        if (account?.services) {
+            setServices(account.services)
+        }
+    }, [account, account?.services]);
 
     useEffect(() => {
         if (account && account.portfolio) {

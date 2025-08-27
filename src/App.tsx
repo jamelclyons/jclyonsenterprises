@@ -1,9 +1,9 @@
 import React, { lazy, Suspense, useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills, User } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills, Portfolio, Products, Services } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
-import { getOrganization } from '@the7ofdiamonds/github-portfolio';
+import { getOrganization, getPortfolioDetails } from '@the7ofdiamonds/github-portfolio';
 
 import { useAppSelector, useAppDispatch } from '@/model/hooks';
 
@@ -37,7 +37,7 @@ const SignUp = lazy(() => import('@the7ofdiamonds/gateway')
 const Forgot = lazy(() => import('@the7ofdiamonds/gateway')
   .then(mod => ({ default: mod.ForgotPage })));
 
-const Portfolio = lazy(() => import('@the7ofdiamonds/github-portfolio')
+const PortfolioPage = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.PortfolioPage })));
 const Project = lazy(() => import('@the7ofdiamonds/github-portfolio')
   .then(mod => ({ default: mod.ProjectPage })));
@@ -68,124 +68,201 @@ import ProtectedRoute from './ProtectedRoute';
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const skills = new Skills({ list: skillsJson });
-
-  const org = new Organization();
-  org.fromJSON(orgJson);
-  org.setSkills(skills);
-
-  const [organization, setOrganization] = useState<Organization>(org);
+  const [organization, setOrganization] = useState<Organization>(new Organization);
+  const [services, setServices] = useState<Services | null>(null);
+  const [products, setProducts] = useState<Products | null>(null);
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [skills, setSkills] = useState<Skills>(new Skills);
+  const [officeHours, setOfficeHours] = useState<Array<Hours> | null>(null);
   const [contactMethods, setContactMethods] = useState<ContactMethods | null>(null);
 
   const { organizationObject } = useAppSelector(
     (state) => state.organization);
+  const { portfolioObject } = useAppSelector(
+    (state) => state.portfolio
+  );
 
   useEffect(() => {
-    if (!organizationObject && org.login) {
-      dispatch(getOrganization(org.login));
+    if (!organizationObject && orgJson.login) {
+      dispatch(getOrganization(orgJson.login));
     }
-  }, [org.login, organizationObject]);
-
-  const services: Array<Service> = [
-    new Service({
-      id: 1,
-      title: 'APP Development',
-      icons: [{
-        id: 'apple-app-store',
-        title: 'Apple App Store',
-        url: null,
-        class_name: 'fa-brands fa-app-store-ios'
-      },
-      {
-        id: 'chrome',
-        title: 'Google chrome Browser',
-        url: null,
-        class_name: 'fa-brands fa-chrome'
-      },
-      {
-        id: 'safari',
-        title: "Apple's Safari Browser",
-        url: null,
-        class_name: 'fa-brands fa-safari'
-      },
-      {
-        id: 'edge',
-        title: "Microsoft's Edge Browser",
-        url: null,
-        class_name: 'fa-brands fa-edge'
-      }],
-      description: 'Build a Custom Cross-Platform Application',
-      price: 66100,
-      action_word: 'build app'
-    }),
-    new Service({
-      id: 2,
-      title: 'Web APP Development',
-      icons: [{
-        id: 'chrome',
-        title: 'Google chrome Browser',
-        url: null,
-        class_name: 'fa-brands fa-chrome'
-      },
-      {
-        id: 'safari',
-        title: "Apple's Safari Browser",
-        url: null,
-        class_name: 'fa-brands fa-safari'
-      },
-      {
-        id: 'edge',
-        title: "Microsoft's Edge Browser",
-        url: null,
-        class_name: 'fa-brands fa-edge'
-      }],
-      description: 'Build a Custom Web Application',
-      price: 6610,
-      action_word: 'build web app'
-    }),
-    new Service({
-      id: 3,
-      title: 'ORB',
-      icons: [{
-        id: 'orb',
-        title: "ORB",
-        url: null,
-        class_name: 'fa-solid fa-circle'
-      }],
-      description: 'A platform for managing your personal finances and business',
-      price: 'No Upfront Cost',
-      action_word: 'download'
-    })
-  ];
-
-
-  const officeHours: Array<Hours> = [
-    new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
-    new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
-    new Hours(true, 'TUE', '09:00 AM', '05:00 PM'),
-    new Hours(true, 'WED', '09:00 AM', '05:00 PM'),
-    new Hours(true, 'THU', '09:00 AM', '05:00 PM'),
-    new Hours(true, 'FRI', '08:00 AM', '04:00 PM'),
-    new Hours(false, 'SAT'),
-  ];
+  }, [orgJson.login, organizationObject]);
 
   useEffect(() => {
     if (organizationObject) {
       const newOrg = new Organization(organizationObject);
-      newOrg.fromJSON(orgJson)
-      newOrg.setSkills(skills);
-      newOrg.setOfficeHours(officeHours)
-      newOrg.setServices(services);
+      newOrg.fromJSON(orgJson);
       setOrganization(newOrg);
-      setContactMethods(newOrg.contactMethods);
     }
   }, [organizationObject]);
 
   useEffect(() => {
-    if (organization.contactMethods) {
+    const list: Array<Service> = [
+      new Service({
+        id: 1,
+        title: 'APP Development',
+        gallery: {
+          icons: [{
+            id: 'apple-app-store',
+            title: 'Apple App Store',
+            url: null,
+            class_name: 'fa-brands fa-app-store-ios'
+          },
+          {
+            id: 'chrome',
+            title: 'Google chrome Browser',
+            url: null,
+            class_name: 'fa-brands fa-chrome'
+          },
+          {
+            id: 'safari',
+            title: "Apple's Safari Browser",
+            url: null,
+            class_name: 'fa-brands fa-safari'
+          },
+          {
+            id: 'edge',
+            title: "Microsoft's Edge Browser",
+            url: null,
+            class_name: 'fa-brands fa-edge'
+          }]
+        },
+        description: 'Build a Custom Cross-Platform Application',
+        pricing: { range: true, starting_price: 66100 },
+        action_word: 'build app'
+      }),
+      new Service({
+        id: 2,
+        title: 'Web APP Development',
+        gallery: {
+          icons: [{
+            id: 'chrome',
+            title: 'Google chrome Browser',
+            url: null,
+            class_name: 'fa-brands fa-chrome'
+          },
+          {
+            id: 'safari',
+            title: "Apple's Safari Browser",
+            url: null,
+            class_name: 'fa-brands fa-safari'
+          },
+          {
+            id: 'edge',
+            title: "Microsoft's Edge Browser",
+            url: null,
+            class_name: 'fa-brands fa-edge'
+          }]
+        },
+        description: 'Build a Custom Web Application',
+        pricing: { range: true, starting_price: 6610 },
+        action_word: 'build web app'
+      }),
+      new Service({
+        id: 3,
+        title: 'ORB',
+        gallery: {
+          icons: [{
+            id: 'orb',
+            title: "ORB",
+            url: null,
+            class_name: 'fa-solid fa-circle'
+          }]
+        },
+        description: 'A platform for managing your personal finances and business',
+        pricing: { display: 'No Upfront Cost' },
+        action_word: 'download'
+      })
+    ];
+
+    const srvs = new Services();
+    srvs.setList(list);
+    setServices(srvs);
+  }, []);
+
+  useEffect(() => {
+    if (organization && services) {
+      organization.setServices(services);
+      setOrganization(organization);
+    }
+  }, [organization, services]);
+
+  useEffect(() => {
+    if (portfolio) {
+      const products = new Products();
+      products.fromPortfolio(portfolio);
+
+      if (products.list.length > 0) {
+        products.list.forEach((product) => {
+          organization.products?.list.push(product)
+        })
+      }
+
+      setProducts(products)
+    }
+  }, [portfolio]);
+
+  useEffect(() => {
+    if (organization && products) {
+      organization.setProducts(products)
+      setOrganization(organization);
+    }
+  }, [organization, products]);
+
+  useEffect(() => {
+    if ((!portfolio || portfolio?.projects?.size == 0) && organizationObject?.portfolio) {
+      dispatch(getPortfolioDetails(new Portfolio(organizationObject.portfolio)))
+    }
+  }, [organizationObject?.portfolio]);
+
+  useEffect(() => {
+    if (portfolioObject) {
+      setPortfolio(new Portfolio(portfolioObject))
+    }
+  }, [portfolioObject]);
+
+  useEffect(() => {
+    if (portfolio && organization) {
+      organization.setPortfolio(portfolio)
+      setOrganization(organization);
+    }
+  }, [portfolio, organization]);
+
+  useEffect(() => {
+    setSkills(new Skills({ list: skillsJson }))
+  }, []);
+
+  useEffect(() => {
+    if (skills && organization) {
+      organization.setSkills(skills)
+      setOrganization(organization);
+    }
+  }, [skills, organization]);
+
+  useEffect(() => {
+    setOfficeHours([
+      new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
+      new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'TUE', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'WED', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'THU', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'FRI', '08:00 AM', '04:00 PM'),
+      new Hours(false, 'SAT'),
+    ]);
+  }, []);
+
+  useEffect(() => {
+    if (organization && officeHours) {
+      organization.setOfficeHours(officeHours);
+      setOrganization(organization);
+    }
+  }, [organization]);
+
+  useEffect(() => {
+    if (organization && organization.contactMethods) {
       setContactMethods(organization.contactMethods);
     }
-  }, [organization.contactMethods]);
+  }, [organization, organization?.contactMethods]);
 
   return (
     <>
@@ -218,7 +295,7 @@ const App: React.FC = () => {
               </ProtectedRoute>
             } />
 
-            <Route path="/portfolio" element={<Portfolio account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+            <Route path="/portfolio" element={<PortfolioPage account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
             <Route path="/portfolio/:owner/:projectID" element={<Project account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
             <Route path="/taxonomy/:taxonomy/:type/:term" element={<Search account={organization} skills={skills} />} />

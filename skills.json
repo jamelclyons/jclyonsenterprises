@@ -157,9 +157,9 @@
         },
         {
             "id": "mysql",
-            "type": "language",
+            "type": "database",
             "title": "MySQL",
-            "path": "language",
+            "path": "database",
             "image": {
                 "id": "mysql",
                 "title": "MySQL",
@@ -289,9 +289,9 @@
         },
         {
             "id": "adobe-illustrator",
-            "type": "technology",
+            "type": "software",
             "title": "Adobe Illustrator",
-            "path": "technology",
+            "path": "software",
             "image": {
                 "id": "adobe-illustrator",
                 "title": "Adobe Illustrator",
@@ -302,9 +302,9 @@
         },
         {
             "id": "adobe-photoshop",
-            "type": "technology",
+            "type": "software",
             "title": "Adobe Photoshop",
-            "path": "technology",
+            "path": "software",
             "image": {
                 "id": "adobe-photoshop",
                 "title": "Adobe Photoshop",
@@ -315,9 +315,9 @@
         },
         {
             "id": "adobe-xd",
-            "type": "technology",
+            "type": "software",
             "title": "Adobe XD",
-            "path": "technology",
+            "path": "software",
             "image": {
                 "id": "adobe-xd",
                 "title": "Adobe XD",
@@ -328,9 +328,9 @@
         },
         {
             "id": "docker",
-            "type": "technology",
+            "type": "cicd",
             "title": "Docker",
-            "path": "technology",
+            "path": "cicd",
             "image": {
                 "id": "docker",
                 "title": "Docker",
@@ -341,9 +341,9 @@
         },
         {
             "id": "express",
-            "type": "technology",
+            "type": "framework",
             "title": "Express",
-            "path": "technology",
+            "path": "framework",
             "image": {
                 "id": "express",
                 "title": "Express",
@@ -354,9 +354,9 @@
         },
         {
             "id": "figma",
-            "type": "technology",
+            "type": "software",
             "title": "Figma",
-            "path": "technology",
+            "path": "software",
             "image": {
                 "id": "figma",
                 "title": "Figma",
@@ -367,9 +367,9 @@
         },
         {
             "id": "jenkins",
-            "type": "technology",
+            "type": "cicd",
             "title": "Jenkins",
-            "path": "technology",
+            "path": "cicd",
             "image": {
                 "id": "jenkins",
                 "title": "Jenkins",
@@ -393,9 +393,9 @@
         },
         {
             "id": "kubernetes",
-            "type": "technology",
+            "type": "platform",
             "title": "Kubernetes",
-            "path": "technology",
+            "path": "platform",
             "image": {
                 "id": "kubernetes",
                 "title": "Kubernetes",
@@ -406,9 +406,9 @@
         },
         {
             "id": "maven",
-            "type": "technology",
+            "type": "builder",
             "title": "Maven",
-            "path": "technology",
+            "path": "builder",
             "image": {
                 "id": "maven",
                 "title": "Maven",
@@ -418,23 +418,10 @@
             "usage": 0
         },
         {
-            "id": "mysql",
-            "type": "technology",
-            "title": "MySQL",
-            "path": "technology",
-            "image": {
-                "id": "mysql",
-                "title": "MySQL",
-                "url": "https://skillicons.dev/icons?i=mysql",
-                "class_name": ""
-            },
-            "usage": 0
-        },
-        {
             "id": "nginx",
-            "type": "technology",
+            "type": "server",
             "title": "NGINX",
-            "path": "technology",
+            "path": "server",
             "image": {
                 "id": "nginx",
                 "title": "NGINX",
@@ -445,9 +432,9 @@
         },
         {
             "id": "nginx-proxy-manager",
-            "type": "technology",
+            "type": "server",
             "title": "NGINX Proxy Manager",
-            "path": "technology",
+            "path": "server",
             "image": {
                 "id": "nginx-proxy-manager",
                 "title": "NGINX Proxy Manager",
@@ -458,9 +445,9 @@
         },
         {
             "id": "postman",
-            "type": "technology",
+            "type": "software",
             "title": "Postman",
-            "path": "technology",
+            "path": "software",
             "image": {
                 "id": "postman",
                 "title": "Postman",
@@ -471,9 +458,9 @@
         },
         {
             "id": "redis",
-            "type": "technology",
+            "type": "database",
             "title": "Redis",
-            "path": "technology",
+            "path": "database",
             "image": {
                 "id": "redis",
                 "title": "Redis",
@@ -484,9 +471,9 @@
         },
         {
             "id": "sass",
-            "type": "technology",
+            "type": "builder",
             "title": "Sass",
-            "path": "technology",
+            "path": "builder",
             "image": {
                 "id": "sass",
                 "title": "Sass",
@@ -497,9 +484,9 @@
         },
         {
             "id": "selenium",
-            "type": "technology",
+            "type": "cicd",
             "title": "Selenium",
-            "path": "technology",
+            "path": "cicd",
             "image": {
                 "id": "selenium",
                 "title": "Selenium",
@@ -510,9 +497,9 @@
         },
         {
             "id": "sqlite",
-            "type": "technology",
+            "type": "database",
             "title": "SQLite",
-            "path": "technology",
+            "path": "database",
             "image": {
                 "id": "sqlite",
                 "title": "SQLite",
@@ -523,9 +510,9 @@
         },
         {
             "id": "vite",
-            "type": "technology",
+            "type": "builder",
             "title": "Vite",
-            "path": "technology",
+            "path": "builder",
             "image": {
                 "id": "vite",
                 "title": "Vite",
@@ -536,9 +523,9 @@
         },
         {
             "id": "webpack",
-            "type": "technology",
+            "type": "builder",
             "title": "Webpack",
-            "path": "technology",
+            "path": "builder",
             "image": {
                 "id": "webpack",
                 "title": "Webpack",
@@ -549,9 +536,9 @@
         },
         {
             "id": "wordpress",
-            "type": "technology",
+            "type": "platform",
             "title": "WordPress",
-            "path": "technology",
+            "path": "platform",
             "image": {
                 "id": "wordpress",
                 "title": "WordPress",
@@ -562,9 +549,9 @@
         },
         {
             "id": "nodejs",
-            "type": "technology",
+            "type": "platform",
             "title": "NodeJS",
-            "path": "technology",
+            "path": "platform",
             "image": {
                 "id": "nodejs",
                 "title": "NodeJS",
@@ -575,9 +562,9 @@
         },
         {
             "id": "graphql",
-            "type": "technology",
+            "type": "database",
             "title": "GraphQL",
-            "path": "technology",
+            "path": "database",
             "image": {
                 "id": "graphql",
                 "title": "GraphQL",
@@ -588,9 +575,9 @@
         },
         {
             "id": "firebase",
-            "type": "service",
+            "type": "platform",
             "title": "Firebase",
-            "path": "service",
+            "path": "platform",
             "image": {
                 "id": "firebase",
                 "title": "Firebase",
@@ -600,9 +587,9 @@
         },
         {
             "id": "github",
-            "type": "service",
+            "type": "cicd",
             "title": "GitHub",
-            "path": "service",
+            "path": "cicd",
             "image": {
                 "id": "github",
                 "title": "GitHub",
@@ -612,9 +599,9 @@
         },
         {
             "id": "github-actions",
-            "type": "service",
+            "type": "cicd",
             "title": "GitHub Actions",
-            "path": "service",
+            "path": "cicd",
             "image": {
                 "id": "github-actions",
                 "title": "GitHub Actions",
