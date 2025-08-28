@@ -7,7 +7,7 @@ import { getOrganization, getPortfolioDetails } from '@the7ofdiamonds/github-por
 
 import { useAppSelector, useAppDispatch } from '@/model/hooks';
 
-import { leftMenu, centerMenu, rightMenu, siteMap } from './Links'
+import { leftMenu, centerMenu, rightMenu, siteMap } from './Menus'
 
 import orgJson from '../organization.json';
 import skillsJson from '../skills.json';
@@ -69,11 +69,11 @@ const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [organization, setOrganization] = useState<Organization>(new Organization);
-  const [services, setServices] = useState<Services | null>(null);
-  const [products, setProducts] = useState<Products | null>(null);
-  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [services, setServices] = useState<Services>(new Services);
+  const [products, setProducts] = useState<Products>(new Products);
+  const [portfolio, setPortfolio] = useState<Portfolio>(new Portfolio);
   const [skills, setSkills] = useState<Skills>(new Skills);
-  const [officeHours, setOfficeHours] = useState<Array<Hours> | null>(null);
+  const [officeHours, setOfficeHours] = useState<Array<Hours>>([]);
   const [contactMethods, setContactMethods] = useState<ContactMethods | null>(null);
 
   const { organizationObject } = useAppSelector(
@@ -89,103 +89,89 @@ const App: React.FC = () => {
   }, [orgJson.login, organizationObject]);
 
   useEffect(() => {
-    if (organizationObject) {
-      const newOrg = new Organization(organizationObject);
-      newOrg.fromJSON(orgJson);
-      setOrganization(newOrg);
+    if ((!portfolio || portfolio?.projects?.size == 0) && organizationObject?.portfolio) {
+      dispatch(getPortfolioDetails(new Portfolio(organizationObject.portfolio)))
     }
-  }, [organizationObject]);
+  }, [organizationObject?.portfolio]);
 
   useEffect(() => {
-    const list: Array<Service> = [
-      new Service({
-        id: 1,
-        title: 'APP Development',
-        gallery: {
-          icons: [{
-            id: 'apple-app-store',
-            title: 'Apple App Store',
-            url: null,
-            class_name: 'fa-brands fa-app-store-ios'
-          },
-          {
-            id: 'chrome',
-            title: 'Google chrome Browser',
-            url: null,
-            class_name: 'fa-brands fa-chrome'
-          },
-          {
-            id: 'safari',
-            title: "Apple's Safari Browser",
-            url: null,
-            class_name: 'fa-brands fa-safari'
-          },
-          {
-            id: 'edge',
-            title: "Microsoft's Edge Browser",
-            url: null,
-            class_name: 'fa-brands fa-edge'
-          }]
-        },
-        description: 'Build a Custom Cross-Platform Application',
-        pricing: { range: true, starting_price: 66100 },
-        action_word: 'build app'
-      }),
-      new Service({
-        id: 2,
-        title: 'Web APP Development',
-        gallery: {
-          icons: [{
-            id: 'chrome',
-            title: 'Google chrome Browser',
-            url: null,
-            class_name: 'fa-brands fa-chrome'
-          },
-          {
-            id: 'safari',
-            title: "Apple's Safari Browser",
-            url: null,
-            class_name: 'fa-brands fa-safari'
-          },
-          {
-            id: 'edge',
-            title: "Microsoft's Edge Browser",
-            url: null,
-            class_name: 'fa-brands fa-edge'
-          }]
-        },
-        description: 'Build a Custom Web Application',
-        pricing: { range: true, starting_price: 6610 },
-        action_word: 'build web app'
-      }),
-      new Service({
-        id: 3,
-        title: 'ORB',
-        gallery: {
-          icons: [{
-            id: 'orb',
-            title: "ORB",
-            url: null,
-            class_name: 'fa-solid fa-circle'
-          }]
-        },
-        description: 'A platform for managing your personal finances and business',
-        pricing: { display: 'No Upfront Cost' },
-        action_word: 'download'
-      })
-    ];
-
-    const srvs = new Services();
-    srvs.setList(list);
-    setServices(srvs);
-  }, []);
+    if (portfolioObject) {
+      setPortfolio(new Portfolio(portfolioObject))
+    }
+  }, [portfolioObject]);
 
   useEffect(() => {
-    if (organization && services) {
-      organization.setServices(services);
-      setOrganization(organization);
+    if (portfolio) {
+      const list: Array<Service> = [
+        new Service({
+          id: 1,
+          title: 'APP Development',
+          gallery: {
+            icons: [{
+              id: 'apple-app-store',
+              title: 'Apple App Store',
+              url: null,
+              class_name: 'fa-brands fa-app-store-ios'
+            },
+            {
+              id: 'chrome',
+              title: 'Google chrome Browser',
+              url: null,
+              class_name: 'fa-brands fa-chrome'
+            },
+            {
+              id: 'safari',
+              title: "Apple's Safari Browser",
+              url: null,
+              class_name: 'fa-brands fa-safari'
+            },
+            {
+              id: 'edge',
+              title: "Microsoft's Edge Browser",
+              url: null,
+              class_name: 'fa-brands fa-edge'
+            }]
+          },
+          description: 'Build a Custom Cross-Platform Application',
+          pricing: { range: true, starting_price: 66100 },
+          action_word: 'build app'
+        }),
+        new Service({
+          id: '2',
+          title: 'Web APP Development',
+          gallery: {
+            icons: [{
+              id: 'chrome',
+              title: 'Google chrome Browser',
+              url: null,
+              class_name: 'fa-brands fa-chrome'
+            },
+            {
+              id: 'safari',
+              title: "Apple's Safari Browser",
+              url: null,
+              class_name: 'fa-brands fa-safari'
+            },
+            {
+              id: 'edge',
+              title: "Microsoft's Edge Browser",
+              url: null,
+              class_name: 'fa-brands fa-edge'
+            }]
+          },
+          description: 'Build a Custom Web Application',
+          pricing: { range: true, starting_price: 6610 },
+          action_word: 'build web app'
+        }),
+      ];
+
+      services.setList(list);
+
+      services.fromPortfolio(portfolio);
+
+      setServices(services)
     }
-  }, [organization, services]);
+  }, [portfolio]);
 
   useEffect(() => {
     if (portfolio) {
@@ -203,41 +189,8 @@ const App: React.FC = () => {
   }, [portfolio]);
 
   useEffect(() => {
-    if (organization && products) {
-      organization.setProducts(products)
-      setOrganization(organization);
-    }
-  }, [organization, products]);
-
-  useEffect(() => {
-    if ((!portfolio || portfolio?.projects?.size == 0) && organizationObject?.portfolio) {
-      dispatch(getPortfolioDetails(new Portfolio(organizationObject.portfolio)))
-    }
-  }, [organizationObject?.portfolio]);
-
-  useEffect(() => {
-    if (portfolioObject) {
-      setPortfolio(new Portfolio(portfolioObject))
-    }
-  }, [portfolioObject]);
-
-  useEffect(() => {
-    if (portfolio && organization) {
-      organization.setPortfolio(portfolio)
-      setOrganization(organization);
-    }
-  }, [portfolio, organization]);
-
-  useEffect(() => {
     setSkills(new Skills({ list: skillsJson }))
   }, []);
-
-  useEffect(() => {
-    if (skills && organization) {
-      organization.setSkills(skills)
-      setOrganization(organization);
-    }
-  }, [skills, organization]);
 
   useEffect(() => {
     setOfficeHours([
@@ -252,65 +205,69 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (organization && officeHours) {
-      organization.setOfficeHours(officeHours);
-      setOrganization(organization);
-    }
-  }, [organization]);
-
-  useEffect(() => {
-    if (organization && organization.contactMethods) {
+    if (organization.contactMethods) {
       setContactMethods(organization.contactMethods);
     }
-  }, [organization, organization?.contactMethods]);
+  }, [organization?.contactMethods]);
+
+  useEffect(() => {
+    if (organizationObject) {
+      const newOrg = new Organization(organizationObject);
+      newOrg.fromJSON(orgJson);
+      newOrg.setPortfolio(portfolio);
+      newOrg.setServices(services);
+      newOrg.setProducts(products);
+      newOrg.setOfficeHours(officeHours);
+      newOrg.setSkills(skills);
+      setOrganization(newOrg);
+    }
+  }, [organizationObject, portfolio, services, products, officeHours, skills]);
 
   return (
-    <>
+    <BrowserRouter>
       <HeaderComponent branding={'SEVEN TECH'} leftMenu={leftMenu} centerMenu={centerMenu} rightMenu={rightMenu} />
-      <BrowserRouter>
-        <Suspense fallback={<LoadingComponent page='' />}>
-          <Routes>
-            <Route path="/" element={<Home account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/about" element={<AboutPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/contact" element={<ContactPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/support" element={<SupportPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
-            <Route path="/faq" element={<FAQPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/research" element={<ResearchArchivePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/research/:owner/:projectID" element={<ResearchPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+      <Suspense fallback={<LoadingComponent page='' />}>
+        <Routes>
+          <Route path="/" element={<Home account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/about" element={<AboutPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/contact" element={<ContactPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/support" element={<SupportPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
+          <Route path="/faq" element={<FAQPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/research" element={<ResearchArchivePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/research/:owner/:projectID" element={<ResearchPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/schedule" element={<SchedulePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/schedule" element={<SchedulePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/products" element={<ProductsPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/products:productID" element={<ProductPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/services" element={<ServicesPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/services/:serviceID" element={<ServicePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/products" element={<ProductsPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
+          <Route path="/product/:productID" element={<ProductPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
+          <Route path="/services" element={<ServicesPage account={organization} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/service/:serviceID" element={<ServicePage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} account={organization} />} />
 
-            <Route path="/login" element={<Login useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/logout" element={<Logout useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/signup" element={<SignUp useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/forgot" element={<Forgot useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/dashboard" element={
-              <ProtectedRoute>
-                <Dashboard useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />
-              </ProtectedRoute>
-            } />
+          <Route path="/login" element={<Login useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/logout" element={<Logout useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/signup" element={<SignUp useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/forgot" element={<Forgot useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />
+            </ProtectedRoute>
+          } />
 
-            <Route path="/portfolio" element={<PortfolioPage account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
-            <Route path="/portfolio/:owner/:projectID" element={<Project account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/portfolio" element={<PortfolioPage account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/portfolio/:owner/:projectID" element={<Project account={organization} portfolio={organization.portfolio} skills={organization.skills} useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="/taxonomy/:taxonomy/:type/:term" element={<Search account={organization} skills={skills} />} />
+          <Route path="/taxonomy/:taxonomy/:type/:term" element={<Search account={organization} skills={skills} />} />
 
-            <Route path="/user/:userID" element={<UserPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
+          <Route path="/user/:userID" element={<UserPage useAppSelector={useAppSelector} useAppDispatch={useAppDispatch} />} />
 
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Suspense>
-      </BrowserRouter >
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
       <FooterComponent name='J.C. LYONS ENTERPRISES LLC'>
         {contactMethods && <ContactBar contactMethods={contactMethods} location={'footer'} />}
         <SiteMapComponent siteMap={siteMap} />
       </FooterComponent>
-    </>
+    </BrowserRouter >
   );
 }
 

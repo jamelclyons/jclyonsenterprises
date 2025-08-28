@@ -1,4 +1,4 @@
-import { Link, SiteMap } from '@the7ofdiamonds/ui-ux';
+import { Link, SiteMap, Menu } from '@the7ofdiamonds/ui-ux';
 
 export const aboutPage = new Link();
 aboutPage.setHref('/about');
@@ -56,8 +56,8 @@ export const dashboardPage = new Link();
 dashboardPage.setHref('/dashboard');
 dashboardPage.setText('Dashboard');
 
-export const leftMenu: Array<Link> = [aboutPage, portfolioPage];
-export const centerMenu: Array<Link> = [
+export const leftMenuLinks: Array<Link> = [aboutPage, portfolioPage];
+export const centerMenuLinks: Array<Link> = [
   aboutPage,
   portfolioPage,
   researchArchivePage,
@@ -66,7 +66,16 @@ export const centerMenu: Array<Link> = [
   faqPage,
   supportPage,
 ];
-export const rightMenu: Array<Link> = [productsPage, servicesPage];
+export const rightMenuLinks: Array<Link> = [productsPage, servicesPage];
+
+export const leftMenu = new Menu();
+leftMenu.setLinks(leftMenuLinks);
+
+export const centerMenu = new Menu();
+centerMenu.setLinks(centerMenuLinks);
+
+export const rightMenu = new Menu();
+rightMenu.setLinks(rightMenuLinks);
 
 export const siteMap = new SiteMap();
 siteMap.setInfo([aboutPage, portfolioPage, researchArchivePage, faqPage]);
