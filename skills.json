@@ -13,6 +13,19 @@
             "usage": 0
         },
         {
+            "id": "package",
+            "type": "project_type",
+            "title": "Package",
+            "path": "project-type",
+            "image": {
+                "id": "package",
+                "title": "Package",
+                "url": "",
+                "class_name": ""
+            },
+            "usage": 0
+        },
+        {
             "id": "plugin",
             "type": "project_type",
             "title": "Plugin",
