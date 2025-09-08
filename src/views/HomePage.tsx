@@ -5,7 +5,7 @@ import { Section, StatusBar } from '@the7ofdiamonds/ui-ux';
 import { MessageType, Organization, Portfolio, Products, RepoContentQuery, Services, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { getRepoFile, PortfolioComponent } from '@the7ofdiamonds/github-portfolio';
 import { AboutComponent } from '@the7ofdiamonds/communications';
-import { fetchProducts, fetchServices, ProductsServicesHero } from '@the7ofdiamonds/products-services';
+import { ProductsServicesHero } from '@the7ofdiamonds/products-services';
 
 interface HomePageProps<RootState, AppDispatch> {
     account: Organization;
@@ -28,19 +28,17 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     const [query, setQuery] = useState<RepoContentQuery>(new RepoContentQuery(account?.login ?? '', account?.login ?? '', 'story.md', ''));
 
     const {
-        productsLoading,
-        productsObject
+        productsLoading
     } = useAppSelector((state) => state.products);
     const {
-        servicesLoading,
-        servicesObject
+        servicesLoading
     } = useAppSelector((state) => state.services);
 
     useEffect(() => {
         if (account?.bio) {
             setPitch(account.bio)
         }
-    }, [account]);
+    }, [account?.bio]);
 
     useEffect(() => {
         if (productsLoading || servicesLoading) {
@@ -54,40 +52,10 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     }, [productsLoading, servicesLoading]);
 
     useEffect(() => {
-        if (account && account.login) {
+        if (account?.login) {
             setQuery(new RepoContentQuery(account.login, account.login, 'story.md', ''))
         }
-    }, [account])
-
-    useEffect(() => {
-        if (account.services && account.services.list.length === 0) {
-            dispatch(fetchServices());
-        }
-    }, [account?.services]);
-
-    useEffect(() => {
-        if (account.products && account.products.list.length === 0) {
-            dispatch(fetchProducts());
-        }
-    }, [account?.products]);
-
-    useEffect(() => {
-        if (productsObject) {
-            setProducts(new Products(productsObject))
-        }
-    }, [productsObject]);
-
-    useEffect(() => {
-        if (servicesObject) {
-            setServices(servicesObject)
-        }
-    }, [servicesObject]);
-
-    useEffect(() => {
-        if (account?.products) {
-            setProducts(account.products)
-        }
-    }, [account, account?.products]);
+    }, [account?.login])
 
     useEffect(() => {
         if (account?.services) {
@@ -96,16 +64,22 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
     }, [account, account?.services]);
 
     useEffect(() => {
-        if (account && account.portfolio) {
-            setPortfolio(account.portfolio)
+        if (account?.products) {
+            setProducts(account.products)
         }
-    }, [account, account?.portfolio]);
+    }, [account, account?.products]);
 
     useEffect(() => {
-        if (account && account.skills) {
+        if (account?.portfolio) {
+            setPortfolio(account.portfolio)
+        }
+    }, [account?.portfolio]);
+
+    useEffect(() => {
+        if (account?.skills) {
             setSkills(account.skills)
         }
-    }, [account, account?.skills]);
+    }, [account?.skills]);
 
     return (
         <Section>

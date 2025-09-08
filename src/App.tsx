@@ -68,11 +68,11 @@ import ProtectedRoute from './ProtectedRoute';
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const [organization, setOrganization] = useState<Organization>(new Organization);
-  const [services, setServices] = useState<Services>(new Services);
-  const [products, setProducts] = useState<Products>(new Products);
-  const [portfolio, setPortfolio] = useState<Portfolio>(new Portfolio);
-  const [skills, setSkills] = useState<Skills>(new Skills);
+  const [organization, setOrganization] = useState<Organization>(new Organization());
+  const [services, setServices] = useState<Services | null>(null);
+  const [products, setProducts] = useState<Products | null>(null);
+  const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
+  const [skills, setSkills] = useState<Skills>(new Skills());
   const [officeHours, setOfficeHours] = useState<Array<Hours>>([]);
   const [contactMethods, setContactMethods] = useState<ContactMethods | null>(null);
 
@@ -86,25 +86,78 @@ const App: React.FC = () => {
     if (!organizationObject && orgJson.login) {
       dispatch(getOrganization(orgJson.login));
     }
-  }, [orgJson.login, organizationObject]);
+  }, []);
 
   useEffect(() => {
-    if ((!portfolio || portfolio?.projects?.size == 0) && organizationObject?.portfolio) {
-      dispatch(getPortfolioDetails(new Portfolio(organizationObject.portfolio)))
+    if (organizationObject) {
+      const newOrg = new Organization(organizationObject);
+      newOrg.fromJSON(orgJson);
+      setOrganization(newOrg);
     }
-  }, [organizationObject?.portfolio]);
+  }, [organizationObject]);
 
   useEffect(() => {
-    if (portfolioObject) {
+    if (organization?.portfolio) {
+      setPortfolio(organization.portfolio)
+    }
+  }, [organization?.portfolio]);
+
+  useEffect(() => {
+    setSkills(new Skills({ list: skillsJson }))
+  }, []);
+
+  useEffect(() => {
+    if (organization && skills?.list.length > 0) {
+      organization.setSkills(skills);
+      setOrganization(organization);
+    }
+  }, [organization, skills?.list]);
+
+  useEffect(() => {
+    setOfficeHours([
+      new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
+      new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'TUE', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'WED', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'THU', '09:00 AM', '05:00 PM'),
+      new Hours(true, 'FRI', '08:00 AM', '04:00 PM'),
+      new Hours(false, 'SAT'),
+    ]);
+  }, []);
+
+  useEffect(() => {
+    if (organization && officeHours.length > 0) {
+      organization.setOfficeHours(officeHours);
+      setOrganization(organization);
+    }
+  }, [organization, officeHours]);
+
+  useEffect(() => {
+    if (organization?.contactMethods) {
+      setContactMethods(organization.contactMethods);
+    }
+  }, [organization?.contactMethods]);
+
+  useEffect(() => {
+    if (organization?.portfolio && organization.portfolio.projects && organization?.portfolio.projects.size > 0) {
+      dispatch(getPortfolioDetails(organization.portfolio))
+    }
+  }, [organization?.portfolio]);
+
+  useEffect(() => {
+    if (organization && portfolioObject) {
       setPortfolio(new Portfolio(portfolioObject))
+      organization.setPortfolio(portfolio);
     }
-  }, [portfolioObject]);
+  }, [organization, portfolioObject]);
 
   useEffect(() => {
-    if (portfolio) {
+    if (portfolio?.projects && portfolio.projects.size > 0) {
+      const srvs = new Services();
+      srvs.fromPortfolio(portfolio);
       const list: Array<Service> = [
         new Service({
-          id: 1,
+          id: '1',
           title: 'APP Development',
           gallery: {
             icons: [{
@@ -165,63 +218,22 @@ const App: React.FC = () => {
         }),
       ];
 
-      services.setList(list);
-
-      services.fromPortfolio(portfolio);
-
-      setServices(services)
+      srvs.setList([...srvs.list, ...list])
+      setServices(srvs)
+      organization.setServices(srvs);
+      setOrganization(organization);
     }
   }, [portfolio]);
 
   useEffect(() => {
-    if (portfolio) {
-      const products = new Products();
-      products.fromPortfolio(portfolio);
-
-      if (products.list.length > 0) {
-        products.list.forEach((product) => {
-          organization.products?.list.push(product)
-        })
-      }
-
-      setProducts(products)
+    if (portfolio?.projects && portfolio.projects.size > 0) {
+      const prds = new Products();
+      prds.fromPortfolio(portfolio);
+      setProducts(prds)
+      organization.setProducts(prds);
+      setOrganization(organization);
     }
   }, [portfolio]);
-
-  useEffect(() => {
-    setSkills(new Skills({ list: skillsJson }))
-  }, []);
-
-  useEffect(() => {
-    setOfficeHours([
-      new Hours(true, 'SUN', '01:00 PM', '05:00 PM'),
-      new Hours(true, 'MON', '09:00 AM', '05:00 PM'),
-      new Hours(true, 'TUE', '09:00 AM', '05:00 PM'),
-      new Hours(true, 'WED', '09:00 AM', '05:00 PM'),
-      new Hours(true, 'THU', '09:00 AM', '05:00 PM'),
-      new Hours(true, 'FRI', '08:00 AM', '04:00 PM'),
-      new Hours(false, 'SAT'),
-    ]);
-  }, []);
-
-  useEffect(() => {
-    if (organization.contactMethods) {
-      setContactMethods(organization.contactMethods);
-    }
-  }, [organization?.contactMethods]);
-
-  useEffect(() => {
-    if (organizationObject) {
-      const newOrg = new Organization(organizationObject);
-      newOrg.fromJSON(orgJson);
-      newOrg.setPortfolio(portfolio);
-      newOrg.setServices(services);
-      newOrg.setProducts(products);
-      newOrg.setOfficeHours(officeHours);
-      newOrg.setSkills(skills);
-      setOrganization(newOrg);
-    }
-  }, [organizationObject, portfolio, services, products, officeHours, skills]);
 
   return (
     <BrowserRouter>
