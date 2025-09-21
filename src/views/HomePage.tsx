@@ -61,13 +61,13 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
         if (account?.services) {
             setServices(account.services)
         }
-    }, [account, account?.services]);
+    }, [account?.services]);
 
     useEffect(() => {
         if (account?.products) {
             setProducts(account.products)
         }
-    }, [account, account?.products]);
+    }, [account?.products]);
 
     useEffect(() => {
         if (account?.portfolio) {

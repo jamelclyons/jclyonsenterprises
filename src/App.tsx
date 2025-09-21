@@ -1,7 +1,7 @@
-import React, { lazy, Suspense, useEffect, useState } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills, Portfolio, Products, Services } from '@the7ofdiamonds/ui-ux';
+import { ContactMethods, Hours, Organization, Service, SiteMapComponent, Skills, Portfolio, Products, Services, Product } from '@the7ofdiamonds/ui-ux';
 import { ContactBar } from '@the7ofdiamonds/communications';
 import { getOrganization, getPortfolioDetails } from '@the7ofdiamonds/github-portfolio';
 
@@ -68,6 +68,9 @@ import ProtectedRoute from './ProtectedRoute';
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
 
+  const didFetchOrg = useRef(false);
+  const didFetchPortfolio = useRef(false);
+
   const [organization, setOrganization] = useState<Organization>(new Organization());
   const [services, setServices] = useState<Services | null>(null);
   const [products, setProducts] = useState<Products | null>(null);
@@ -83,35 +86,34 @@ const App: React.FC = () => {
   );
 
   useEffect(() => {
-    if (!organizationObject && orgJson.login) {
+    if (!didFetchOrg.current && !organizationObject && orgJson.login) {
       dispatch(getOrganization(orgJson.login));
+      didFetchOrg.current = true;
     }
-  }, []);
+  }, [organizationObject, orgJson.login]);
 
   useEffect(() => {
     if (organizationObject) {
       const newOrg = new Organization(organizationObject);
       newOrg.fromJSON(orgJson);
+      setContactMethods(newOrg.contactMethods);
       setOrganization(newOrg);
     }
   }, [organizationObject]);
-
-  useEffect(() => {
-    if (organization?.portfolio) {
-      setPortfolio(organization.portfolio)
-    }
-  }, [organization?.portfolio]);
 
   useEffect(() => {
     setSkills(new Skills({ list: skillsJson }))
   }, []);
 
   useEffect(() => {
-    if (organization && skills?.list.length > 0) {
-      organization.setSkills(skills);
-      setOrganization(organization);
+    if (skills?.list && skills.list.length > 0) {
+      setOrganization(prevOrg => {
+        const newOrg = new Organization(prevOrg.toOrganizationObject());
+        newOrg.setSkills(skills);
+        return newOrg;
+      });
     }
-  }, [organization, skills?.list]);
+  }, [skills?.list]);
 
   useEffect(() => {
     setOfficeHours([
@@ -126,30 +128,33 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (organization && officeHours.length > 0) {
-      organization.setOfficeHours(officeHours);
-      setOrganization(organization);
+    if (officeHours.length > 0) {
+      setOrganization(prevOrg => {
+        const newOrg = new Organization(prevOrg.toOrganizationObject());
+        newOrg.setOfficeHours(officeHours);
+        return newOrg;
+      });
     }
-  }, [organization, officeHours]);
+  }, [officeHours]);
 
   useEffect(() => {
-    if (organization?.contactMethods) {
-      setContactMethods(organization.contactMethods);
-    }
-  }, [organization?.contactMethods]);
+    const fetchPortfolio = async (portfolio: Portfolio) => {
+      const portfolioObject = await dispatch(getPortfolioDetails(portfolio)).unwrap();
+      if (portfolioObject) {
+        setOrganization(prevOrg => {
+          const newOrg = new Organization(prevOrg.toOrganizationObject());
+          setPortfolio(organization?.portfolio);
+          newOrg.setPortfolio(new Portfolio(portfolioObject));
+          return newOrg;
+        });
+      }
+    };
 
-  useEffect(() => {
-    if (organization?.portfolio && organization.portfolio.projects && organization?.portfolio.projects.size > 0) {
-      dispatch(getPortfolioDetails(organization.portfolio))
+    if (!didFetchPortfolio.current && organization?.portfolio && organization.portfolio.projects && organization?.portfolio.projects.size > 0) {
+      fetchPortfolio(organization.portfolio);
+      didFetchPortfolio.current = true;
     }
   }, [organization?.portfolio]);
-
-  useEffect(() => {
-    if (organization && portfolioObject) {
-      setPortfolio(new Portfolio(portfolioObject))
-      organization.setPortfolio(portfolio);
-    }
-  }, [organization, portfolioObject]);
 
   useEffect(() => {
     if (portfolio?.projects && portfolio.projects.size > 0) {
@@ -220,8 +225,11 @@ const App: React.FC = () => {
 
       srvs.setList([...srvs.list, ...list])
       setServices(srvs)
-      organization.setServices(srvs);
-      setOrganization(organization);
+      setOrganization(prevOrg => {
+        const newOrg = new Organization(prevOrg.toOrganizationObject());
+        newOrg.setServices(srvs);
+        return newOrg;
+      });
     }
   }, [portfolio]);
 
@@ -229,9 +237,16 @@ const App: React.FC = () => {
     if (portfolio?.projects && portfolio.projects.size > 0) {
       const prds = new Products();
       prds.fromPortfolio(portfolio);
+      const list: Array<Product> = [
+    
+      ];
+      prds.setList([...prds.list, ...list])
       setProducts(prds)
-      organization.setProducts(prds);
-      setOrganization(organization);
+      setOrganization(prevOrg => {
+        const newOrg = new Organization(prevOrg.toOrganizationObject());
+        newOrg.setProducts(prds);
+        return newOrg;
+      });
     }
   }, [portfolio]);
 
