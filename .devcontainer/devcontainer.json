@@ -1,0 +1,13 @@
+{
+	"name": "Business Website",
+	"dockerComposeFile": [
+		"docker-compose.yaml"
+	],
+	"service": "dev-website",
+	"workspaceFolder": "/app",
+	"remoteEnv": {
+		"AUTH_TOKEN": "${localEnv:AUTH_TOKEN}",
+		"GITHUB_TOKEN": "${localEnv:GITHUB_TOKEN}",
+		"PACKAGES_DIR": "${localEnv:PACKAGES_DIR}"
+	}
+}

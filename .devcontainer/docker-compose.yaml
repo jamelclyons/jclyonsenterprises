@@ -1,0 +1,43 @@
+name: business
+
+services:
+
+  dev-website:
+    image: node:22-slim
+    env_file: .env
+    hostname: ${URL}
+    platform: linux/arm64
+    container_name: business-dev
+    restart: unless-stopped
+    working_dir: /app
+    command: bash .devcontainer/docker-entrypoint.sh
+    volumes:
+      - ../:/app:cached
+      - node_modules:/app/node_modules
+      - ${PACKAGES_DIR}:/app/Packages
+    ports:
+      - "3001:3001"
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      RUNNING_IN_DOCKER: "true"
+      DEBUG: true          
+      NODE_ENV: development
+      AUTH_TOKEN: ${AUTH_TOKEN}
+    networks:
+      - j.c.lyons_enterprises
+      - seven_tech
+      - orb
+
+volumes:
+  node_modules:
+  
+networks:
+  j.c.lyons_enterprises:
+    name: j.c.lyons_enterprises
+    external: true
+  seven_tech:
+    name: seven_tech
+    external: true
+  orb:
+    name: orb
+    external: true

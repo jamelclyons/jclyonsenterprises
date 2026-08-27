@@ -1,31 +1,29 @@
 import React, { useEffect, useState } from 'react'
-import type { TypedUseSelectorHook } from 'react-redux';
 
 import { Section, StatusBar } from '@the7ofdiamonds/ui-ux';
-import { MessageType, Organization, Portfolio, Products, RepoContentQuery, Services, Skills, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
-import { getRepoFile, PortfolioComponent } from '@the7ofdiamonds/github-portfolio';
-import { AboutComponent } from '@the7ofdiamonds/communications';
+import { MessageType, Organization, Products, Services, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { ProductsServicesHero } from '@the7ofdiamonds/products-services';
 
-interface HomePageProps<RootState, AppDispatch> {
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface HomePageProps {
     account: Organization;
-    useAppSelector: TypedUseSelectorHook<RootState>;
+    useAppSelector: AppSelectorHook;
     useAppDispatch: () => AppDispatch;
 }
 
-const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, useAppDispatch }) => {
+const HomePage: React.FC<HomePageProps> = ({ account, useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
-    const [message, setMessage] = useState<string>('Thank you for stopping by. Feel free to leave a message on our contact page, and follow our social links below.');
+    const instruction = 'Thank you for stopping by. Feel free to leave a message on our contact page, and follow our social links below.';
+
+    const [message, setMessage] = useState<string>(instruction);
     const [messageType, setMessageType] = useState<MessageType>('info');
     const [showStatusBar, setShowStatusBar] = useState<StatusBarVisibility>('hide');
 
     const [pitch, setPitch] = useState<string | null>(null);
     const [products, setProducts] = useState<Products | null>(null);
     const [services, setServices] = useState<Services | null>(null);
-    const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-    const [skills, setSkills] = useState<Skills | null>(account?.skills);
-    const [query, setQuery] = useState<RepoContentQuery>(new RepoContentQuery(account?.login ?? '', account?.login ?? '', 'story.md', ''));
 
     const {
         productsLoading
@@ -46,16 +44,10 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
             setMessageType('info')
             setShowStatusBar('show')
         } else {
-            setMessage('Thank you for stopping by. Feel free to leave a message on our contact page, and follow our social links below.')
+            setMessage(instruction)
             setShowStatusBar('hide')
         }
     }, [productsLoading, servicesLoading]);
-
-    useEffect(() => {
-        if (account?.login) {
-            setQuery(new RepoContentQuery(account.login, account.login, 'story.md', ''))
-        }
-    }, [account?.login])
 
     useEffect(() => {
         if (account?.services) {
@@ -69,25 +61,9 @@ const HomePage: React.FC<HomePageProps<any, any>> = ({ account, useAppSelector, 
         }
     }, [account?.products]);
 
-    useEffect(() => {
-        if (account?.portfolio) {
-            setPortfolio(account.portfolio)
-        }
-    }, [account?.portfolio]);
-
-    useEffect(() => {
-        if (account?.skills) {
-            setSkills(account.skills)
-        }
-    }, [account?.skills]);
-
     return (
         <Section>
             {(pitch || products || services) && <ProductsServicesHero pitch={pitch} products={products} services={services} dispatch={dispatch} />}
-
-            {(portfolio || skills) && <PortfolioComponent portfolio={portfolio} skills={skills} />}
-
-            {account && <AboutComponent title={null} account={account} query={query} getFile={getRepoFile} dispatch={dispatch} />}
 
             {message && <StatusBar show={showStatusBar} messageType={messageType} message={message} />}
         </Section>

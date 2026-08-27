@@ -6,15 +6,17 @@ import { Organization, RepoContentQuery } from '@the7ofdiamonds/ui-ux';
 
 import { FAQComponent } from '@the7ofdiamonds/communications';
 
-import { getRepoFile } from '@the7ofdiamonds/github-portfolio';
+import { getRepoFile } from '@the7ofdiamonds/portfolio';
 
-interface FAQPageProps<RootState, AppDispatch> {
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface FAQPageProps {
   account: Organization;
-  useAppSelector: TypedUseSelectorHook<RootState>;
+  useAppSelector: AppSelectorHook;
   useAppDispatch: () => AppDispatch;
 }
 
-const FAQPage: React.FC<FAQPageProps<any, any>> = ({ account, useAppSelector, useAppDispatch }) => {
+const FAQPage: React.FC<FAQPageProps> = ({ account, useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
     const [message, setMessage] = useState<string | null>(null);

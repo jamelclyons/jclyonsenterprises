@@ -7,14 +7,16 @@ import { MessageType, Page, RepoContentQuery, StatusBarVisibility } from '@the7o
 
 import { ResearchComponent } from '@the7ofdiamonds/communications';
 
-import { getRepoFile } from '@the7ofdiamonds/github-portfolio';
+import { getRepoFile } from '@the7ofdiamonds/portfolio';
 
-interface ResearchPageProps<RootState, AppDispatch> {
-    useAppSelector: TypedUseSelectorHook<RootState>;
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface ResearchPageProps {
+    useAppSelector: AppSelectorHook;
     useAppDispatch: () => AppDispatch;
 }
 
-const ResearchPage: React.FC<ResearchPageProps<any, any>> = ({ useAppSelector, useAppDispatch }) => {
+const ResearchPage: React.FC<ResearchPageProps> = ({ useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
     const { owner, projectID } = useParams<string>();

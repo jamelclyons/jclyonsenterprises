@@ -12,14 +12,14 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const dispatch = useAppDispatch();
-    
+
     const {
         isAdmin
     } = useAppSelector((state) => state.auth);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(setIsAdmin())
-    },[]);
+    }, []);
 
     return isAdmin ? (
         children

@@ -1,15 +1,16 @@
 import React, { useState } from 'react'
-import { TypedUseSelectorHook } from 'react-redux';
 
 import { MessageType, Organization, Section, StatusBar, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 import { ResearchArchiveComponent } from '@the7ofdiamonds/communications';
 
-interface ResearchArchivePageProps<RootState, AppDispatch> {
-    useAppSelector: TypedUseSelectorHook<RootState>;
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface ResearchArchivePageProps {
+    useAppSelector: AppSelectorHook;
     useAppDispatch: () => AppDispatch;
 }
 
-const ResearchArchivePage: React.FC<ResearchArchivePageProps<any, any>> = ({ useAppSelector, useAppDispatch }) => {
+const ResearchArchivePage: React.FC<ResearchArchivePageProps> = ({ useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
     const [message, setMessage] = useState<string | null>(null);

@@ -1,16 +1,17 @@
 import React, { useState } from 'react'
-import { TypedUseSelectorHook } from 'react-redux';
 
 import { MessageType, Organization, Section, StatusBar, StatusBarVisibility } from '@the7ofdiamonds/ui-ux'
 import { SupportComponent } from '@the7ofdiamonds/communications';
 
-interface SupportPageProps<RootState, AppDispatch> {
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface SupportPageProps {
     account: Organization;
-    useAppSelector: TypedUseSelectorHook<RootState>;
+    useAppSelector: AppSelectorHook;
     useAppDispatch: () => AppDispatch;
 }
 
-const SupportPage: React.FC<SupportPageProps<any, any>> = ({ account, useAppSelector, useAppDispatch }) => {
+const SupportPage: React.FC<SupportPageProps> = ({ account, useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
     const [message, setMessage] = useState<string | null>(null);

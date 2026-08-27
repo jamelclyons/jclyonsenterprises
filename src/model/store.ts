@@ -1,3 +1,4 @@
+import { TypedUseSelectorHook } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 
 import { contentSlice } from '@the7ofdiamonds/ui-ux';
@@ -10,7 +11,7 @@ import {
   projectSlice,
   organizationSlice,
   githubSlice,
-} from '@the7ofdiamonds/github-portfolio';
+} from '@the7ofdiamonds/portfolio';
 import { locationSlice } from '@the7ofdiamonds/locations';
 import {
   productsSlice,
@@ -38,5 +39,6 @@ export const store = configureStore({
   },
 });
 
-export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppSelectorHook = TypedUseSelectorHook<RootState>;

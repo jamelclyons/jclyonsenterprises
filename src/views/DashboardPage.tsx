@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
-import type { TypedUseSelectorHook } from 'react-redux';
 
 import { MessageType, Section, StatusBarVisibility } from '@the7ofdiamonds/ui-ux';
 
-interface DashboardPageProps<RootState, AppDispatch> {
-    useAppSelector: TypedUseSelectorHook<RootState>;
+import type { AppSelectorHook, AppDispatch } from '../model/store';
+
+interface DashboardPageProps {
+    useAppSelector: AppSelectorHook;
     useAppDispatch: () => AppDispatch;
 }
 
-const DashboardPage: React.FC<DashboardPageProps<any, any>> = ({ useAppSelector, useAppDispatch }) => {
+const DashboardPage: React.FC<DashboardPageProps> = ({ useAppSelector, useAppDispatch }) => {
     const dispatch = useAppDispatch();
 
     const [message, setMessage] = useState<string | null>(null);

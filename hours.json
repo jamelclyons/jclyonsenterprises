@@ -1,0 +1,42 @@
+[
+    {
+        "open": true,
+        "day_of_week":"sun",
+        "start": "01:00 PM",
+        "end": "05:00 PM"
+    },
+    {
+        "open": true,
+        "day_of_week":"mon",
+        "start": "09:00 AM",
+        "end": "05:00 PM"
+    },
+    {
+        "open": true,
+        "day_of_week":"tue",
+        "start": "09:00 AM",
+        "end": "05:00 PM"
+    },
+    {
+        "open": true,
+        "day_of_week":"wed",
+        "start": "09:00 AM",
+        "end": "05:00 PM"
+    },
+    {
+        "open": true,
+        "day_of_week":"thu",
+        "start": "09:00 AM",
+        "end": "05:00 PM"
+    },  
+    {
+        "open": true,
+        "day_of_week":"fri",
+        "start": "08:00 AM",
+        "end": "04:00 PM"
+    },
+    {
+        "open": false,
+        "day_of_week":"sat"
+    }
+]
