@@ -21,7 +21,7 @@
     "build": "vite build",
     "preview": "vite preview --port 8080",
     "update-dev": "git push ssh://git@gitlab.jclyonsenterprises.com:2424/seven-tech/website.git",
-    "update-prod": "git push git@github.com/jamelclyons/jclyonsenterprises.git",
+    "update-prod": "git push git@github.com:jamelclyons/jclyonsenterprises.git",
     "refactor": "./refactor.sh && npm run update-prod"
   },
   "dependencies": {
